@@ -10,16 +10,18 @@ type Props = {
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 export default function PaymentWrapper({ children }: Props) {
-  const [clientSecret, setClientSecret] = React.useState("");
+  const [clientSecret, setClientSecret] = React.useState('');
 
   React.useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cookies: 1 }),
     })
       .then((res) => res.json())
@@ -35,12 +37,12 @@ export default function PaymentWrapper({ children }: Props) {
   };
 
   return (
-    <div>
-      {clientSecret &&
+    <>
+      {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           {children}
         </Elements>
-      }
-    </div>
+      )}
+    </>
   );
-};
+}
