@@ -51,7 +51,9 @@ export default function Cookie() {
                 />
               </CounterButton>
             </CookieCounter>
-            <button onClick={() => setShowCheckout(true)}> BUY ME!</button>
+            <BuyButton onClick={() => setShowCheckout(true)}>
+              Give Me Cookies!
+            </BuyButton>
           </>
         )}
       </Wrapper>
@@ -83,3 +85,5 @@ const CookieNumber = styled.h1`
   font-size: 222px;
   text-align: center;
 `;
+
+const BuyButton = styled(UnstyledButton)``;
