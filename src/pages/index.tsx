@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import styled from 'styled-components';
+import Head from "next/head";
+import styled from "styled-components";
 
-import Cookie from '@components/Cookie';
-import Header from '@components/Header';
-import Footer from '@components/Footer';
+import Cookie from "@components/Cookie";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
 
 export default function Home() {
   return (
@@ -14,14 +14,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-      <Cookie />
+      <Main>
+        <Header />
+        <Cookie />
+      </Main>
       <Footer />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  height: 100%;
+`;
+
+const Main = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100%;

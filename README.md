@@ -1,3 +1,9 @@
+# LOCAL Setup
+- create a .env.local file for the environment variables
+- find all of the `process.env` and fill them with what needs to be filled in :) 
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

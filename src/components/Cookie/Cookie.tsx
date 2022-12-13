@@ -86,4 +86,9 @@ const CookieNumber = styled.h1`
   text-align: center;
 `;
 
-const BuyButton = styled(UnstyledButton)``;
+const BuyButton = styled(UnstyledButton)`
+  text-align: center;
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+`;
