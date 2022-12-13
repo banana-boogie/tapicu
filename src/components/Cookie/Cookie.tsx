@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
@@ -8,18 +8,32 @@ import PaymentForm from '@components/PaymentForm';
 import PaymentProvider from '@components/PaymentProvider';
 
 import { COOKIE_PRICE } from '@constants/constants';
+import useInput from '@hooks/useInput.hook';
+
 export default function Cookie() {
-  const [cookieCounter, setCookieCounter] = useState(1);
+  const { value: cookieCount,  setValue: setCookieCount, onChange: cookieCountOnChange} = useInput(1);
   const [showCheckout, setShowCheckout] = useState(false);
 
+  function getTotal() {
+    return (cookieCount * COOKIE_PRICE).toFixed(2);
+  }
+
+  // Make it so that you can't have less than 1 cookie
+  useEffect(() => {
+    if (cookieCount < 1) {
+      setCookieCount(1);
+    }
+  }, [cookieCount]);
+
   return (
+    // TODO: Dynamic button for payment - check stripe docs to see if you can tell what button will render
     <PaymentProvider>
       <Wrapper>
         {showCheckout ? (
           <div>
             <h1>Cookie Order Confirmation</h1>
             <span className="cookie-order">
-              Cookies: {cookieCounter} ${cookieCounter * COOKIE_PRICE}
+              Cookies: {cookieCount} ${cookieCount * COOKIE_PRICE}
             </span>
             <PaymentForm />
           </div>
@@ -28,7 +42,7 @@ export default function Cookie() {
             <CookieCounter>
               <CounterButton
                 onClick={() =>
-                  cookieCounter > 1 && setCookieCounter(cookieCounter - 1)
+                  cookieCount > 1 && setCookieCount(Number(cookieCount) - 1)
                 }
               >
                 <Image
@@ -38,10 +52,10 @@ export default function Cookie() {
                   height={72}
                 />
               </CounterButton>
-              <CookieNumber>{cookieCounter}</CookieNumber>
+              <CookieNumber value={cookieCount} onChange={cookieCountOnChange} inputMode="numeric" onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}/>
               <CounterButton
                 className="add-cookie"
-                onClick={() => setCookieCounter(cookieCounter + 1)}
+                onClick={() => setCookieCount(Number(cookieCount) + 1)}
               >
                 <Image
                   src="/plus-sign.svg"
@@ -51,6 +65,9 @@ export default function Cookie() {
                 />
               </CounterButton>
             </CookieCounter>
+            <Total>
+              Total: ${getTotal()}
+            </Total>
             <BuyButton onClick={() => setShowCheckout(true)}>
               Give Me Cookies!
             </BuyButton>
@@ -58,19 +75,19 @@ export default function Cookie() {
         )}
       </Wrapper>
     </PaymentProvider>
-  );
+  )
 }
 
 const Wrapper = styled.main`
   flex: 1;
   display: grid;
-  grid-template-rows: 2fr 100px;
+  grid-template-rows: 2fr 1fr 100px;
 `;
 
 const CookieCounter = styled.div`
   display: grid;
   place-content: center;
-  grid-template-columns: minmax(50px, 1fr) 3fr minmax(50px, 1fr);
+  grid-template-columns: minmax(50px, 1fr) 1fr minmax(50px, 1fr);
   justify-items: center;
 `;
 
@@ -81,9 +98,15 @@ const CounterButton = styled(UnstyledButton)`
   width: 100%;
 `;
 
-const CookieNumber = styled.h1`
-  font-size: 222px;
+const CookieNumber = styled.input`
+  font-size: 4rem;
   text-align: center;
+  border: none;
+  max-width: 120px;
+`;
+
+const Total = styled.h2`
+text-align: center;
 `;
 
 const BuyButton = styled(UnstyledButton)`

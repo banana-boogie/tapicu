@@ -20,7 +20,7 @@ export default function Home() {
       </Main>
       <Footer />
     </Wrapper>
-  );
+  )
 }
 
 const Wrapper = styled.div`

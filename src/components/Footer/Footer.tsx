@@ -12,8 +12,8 @@ const Footer = () => {
         <Logo src="/logo.png" alt="logo" width={24} height={24} />
       </span>
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled.footer`
   padding: var(--space-xs);
