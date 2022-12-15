@@ -2,7 +2,6 @@ import Head from "next/head";
 import styled from "styled-components";
 
 import Cookie from "@components/Cookie";
-import Header from "@components/Header";
 import Footer from "@components/Footer";
 
 export default function Home() {
@@ -19,7 +18,7 @@ export default function Home() {
       </Main>
       <Footer />
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.div`

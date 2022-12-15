@@ -26,6 +26,11 @@ export default function Cookie() {
     return (cookieCount * COOKIE_PRICE).toFixed(2);
   }
 
+  function handleBuyCookes() {
+    setShowCheckout(true);
+    setCurrentStep(1);
+  }
+
   // Make it so that you can't have less than 1 cookie
   useEffect(() => {
     if (cookieCount < 1) {
@@ -51,10 +56,15 @@ export default function Cookie() {
   const PageHeader = () => {
     return (
       <PageHeaderWrapper>
-        {currentStep > 1 ? (
+        {currentStep > 0 ? (
           <BackButtonWrapper>
             <BackButton onClick={() => setCurrentStep(currentStep - 1)}>
-              <BackIcon id="back" strokeWidth={3} size={24} />
+              <BackIcon
+                id="back"
+                strokeWidth={2}
+                size={24}
+                color={"var(--color-accent)"}
+              />
             </BackButton>
           </BackButtonWrapper>
         ) : (
@@ -70,44 +80,68 @@ export default function Cookie() {
     <PaymentProvider>
       <Wrapper>
         <PageHeader />
+        <AbisCookieJarImage
+          src={"/Abi's_Cookies_Cookie_Jar.svg"}
+          alt=""
+          height={170}
+          width={170}
+        />
         {showCheckout ? (
           <Checkout />
         ) : (
           <>
-            <CookieCounter>
-              <CounterButton
-                onClick={() =>
-                  cookieCount > 1 && setCookieCount(Number(cookieCount) - 1)
-                }
-              >
-                <Image
-                  src="/minus-sign.svg"
-                  alt="minus-sign"
-                  width={72}
-                  height={72}
+            <CookieCounterWrapper>
+              <Question>
+                How many cookies <br /> would you like?
+              </Question>
+
+              <CookieCounter>
+                <CounterButton
+                  onClick={() =>
+                    cookieCount > 1 && setCookieCount(Number(cookieCount) - 1)
+                  }
+                >
+                  <Image
+                    src="/minus_button.svg"
+                    alt="minus button"
+                    width={48}
+                    height={48}
+                  />
+                </CounterButton>
+                <CookieNumber
+                  value={cookieCount}
+                  onChange={cookieCountOnChange}
+                  inputMode="numeric"
+                  onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
                 />
-              </CounterButton>
-              <CookieNumber
-                value={cookieCount}
-                onChange={cookieCountOnChange}
-                inputMode="numeric"
-                onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
+                <CounterButton
+                  onClick={() =>
+                    cookieCount < 99 && setCookieCount(Number(cookieCount) + 1)
+                  }
+                >
+                  <Image
+                    src="/plus_button.svg"
+                    alt="plus button"
+                    width={48}
+                    height={48}
+                  />
+                </CounterButton>
+              </CookieCounter>
+              <CookiePrice>(${COOKIE_PRICE} per cookie)</CookiePrice>
+              <Divider />
+              <TotalWrapper>
+                <Total>Total </Total>
+                <TotalNumber>${getTotal()}</TotalNumber>
+              </TotalWrapper>
+            </CookieCounterWrapper>
+            <BuyButton onClick={handleBuyCookes}>
+              Buy Cookies
+              <RightArrowIcon
+                id="arrow-right"
+                strokeWidth={2}
+                size={18}
+                color={"var(--color-white)"}
               />
-              <CounterButton
-                className="add-cookie"
-                onClick={() => setCookieCount(Number(cookieCount) + 1)}
-              >
-                <Image
-                  src="/plus-sign.svg"
-                  alt="plus-sign"
-                  width={72}
-                  height={72}
-                />
-              </CounterButton>
-            </CookieCounter>
-            <Total>Total: ${getTotal()}</Total>
-            <BuyButton onClick={() => setShowCheckout(true)}>
-              Give Me Cookies!
             </BuyButton>
           </>
         )}
@@ -118,60 +152,107 @@ export default function Cookie() {
 
 const Wrapper = styled.main`
   flex: 1;
-  display: grid;
-  grid-template-rows: 50px 2fr 1fr 100px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const PageHeaderWrapper = styled.div`
+  display: flex;
+  padding-top: var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + 8px);
 `;
 
 const Spacer = styled.div`
   flex: 1;
 `;
 
-const PageHeaderWrapper = styled.div`
-  display: flex;
+const ProgressBar = styled(ProgressBarComponent)`
+  max-height: 100px;
 `;
 
-const ProgressBar = styled(ProgressBarComponent)`
-  flex: 1;
+const AbisCookieJarImage = styled(Image)`
+  align-self: center;
 `;
 
 const BackButtonWrapper = styled.div`
   flex: 1;
   align-self: center;
-  padding-left: var(--space-sm);
+  transform: translateX(var(--space-md));
 `;
 const BackButton = styled(UnstyledButton)``;
 const BackIcon = styled(Icon)``;
 
-const CookieCounter = styled.div`
-  display: grid;
-  place-content: center;
-  grid-template-columns: minmax(50px, 1fr) 1fr minmax(50px, 1fr);
-  justify-items: center;
+const CookieCounterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-black);
+  border-radius: 16px;
+  margin: var(--space-lg);
+  padding-top: calc(var(--space-xl));
+  padding-bottom: var(--space-xl);
 `;
 
-const CounterButton = styled(UnstyledButton)`
-  display: grid;
-  place-content: center;
-  height: 100%;
-  width: 100%;
+const Question = styled.h2`
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
 `;
+
+const CookieCounter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CounterButton = styled(UnstyledButton)``;
 
 const CookieNumber = styled.input`
-  font-size: 4rem;
+  font-size: 92px;
   text-align: center;
   border: none;
-  max-width: 120px;
+  width: 144px;
+  padding: 0;
+  text-align: center;
 `;
 
-const Total = styled.h2`
+const CookiePrice = styled.p`
   text-align: center;
+  font-size: var(--font-size-xs);
+  margin-top: calc(-1 * var(--space-sm));
+`;
+
+const Divider = styled.hr`
+  width: calc(100% - var(--space-lg) * 2);
+  margin: 0 var(--space-lg);
+  border: none;
+  border-top: 2px solid var(--color-gray-300);
+`;
+const TotalWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  margin-top: var(--space-sm);
+`;
+const Total = styled.h3`
+  font-weight: var(--font-weight-normal);
+`;
+const TotalNumber = styled.h3`
+  font-weight: var(--font-weight-medium);
 `;
 
 const BuyButton = styled(UnstyledButton)`
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-white);
   background: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  margin: var(--space-lg);
+  padding: var(--space-md);
+  border-radius: var(--border-radius-sm);
+`;
+
+const RightArrowIcon = styled(Icon)`
+  margin-left: var(--space-sm);
 `;
 
 const CheckoutWrapper = styled.div``;

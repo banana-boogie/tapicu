@@ -29,7 +29,7 @@ export const COLORS = {
   orange: {
     300: '28deg 75% 71%',
   },
-  primary: '340deg 65% 47%',
+  primary: '207deg, 100%, 49%',
   secondary: '240deg 60% 63%',
   accent: '28deg 75% 71%'
 };
@@ -51,6 +51,16 @@ export const WEIGHTS = {
 };
 
 export const SPACING = {
+  xxs: '4px',
+  xs: '8px',
+  sm: '12px',
+  md: '16px',
+  lg: '24px',
+  xl: '32px',
+  xxl: '48px',
+};
+
+export const BORDER_RADIUS = {
   xxs: '4px',
   xs: '8px',
   sm: '12px',

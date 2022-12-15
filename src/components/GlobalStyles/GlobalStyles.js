@@ -1,5 +1,11 @@
 import { createGlobalStyle } from "styled-components";
-import { COLORS, WEIGHTS, FONT_SIZES, SPACING } from "@constants/css";
+import {
+  COLORS,
+  WEIGHTS,
+  FONT_SIZES,
+  SPACING,
+  BORDER_RADIUS,
+} from "@constants/css";
 
 const GlobalStyles = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -214,9 +220,19 @@ html {
   --space-xl: ${SPACING.xl};
   --space-xxl: ${SPACING.xxl};
 
+  /* BORDER-RADIUS */
+  --border-radius-xxs: ${BORDER_RADIUS.xxs};
+  --border-radius-xs: ${BORDER_RADIUS.xs};
+  --border-radius-sm: ${BORDER_RADIUS.sm};
+  --border-radius-md: ${BORDER_RADIUS.md};
+  --border-radius-lg: ${BORDER_RADIUS.lg};
+  --border-radius-xl: ${BORDER_RADIUS.xl};
+  --border-radius-xxl: ${BORDER_RADIUS.xxl};
+
   /* COLORS */
   --color-background: hsl(${COLORS.white});
   --color-text: hsl(${COLORS.black});
+  --color-black: hsl(${COLORS.black});
   --color-white: hsl(${COLORS.white});
   --color-primary: hsl(${COLORS.primary});
   --color-secondary: hsl(${COLORS.secondary});

@@ -12,7 +12,8 @@ import {
   Loader,
   Copy,
   Link,
-  ArrowLeft
+  ArrowLeft,
+  ArrowRight,
 } from "./IconPack";
 
 const icons = {
@@ -27,7 +28,8 @@ const icons = {
   loader: Loader,
   copy: Copy,
   link: Link,
-  back: ArrowLeft
+  back: ArrowLeft,
+  "arrow-right": ArrowRight,
 };
 
 const Icon = ({ id, color = "black", size, strokeWidth, ...delegated }) => {
