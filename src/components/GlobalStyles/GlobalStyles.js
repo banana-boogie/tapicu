@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import { COLORS, WEIGHTS, FONT_SIZES, SPACING } from '@constants/css';
+import { createGlobalStyle } from "styled-components";
+import { COLORS, WEIGHTS, FONT_SIZES, SPACING } from "@constants/css";
 
 const GlobalStyles = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -220,6 +220,7 @@ html {
   --color-white: hsl(${COLORS.white});
   --color-primary: hsl(${COLORS.primary});
   --color-secondary: hsl(${COLORS.secondary});
+  --color-accent: hsl(${COLORS.accent});
   --color-gray-100: hsl(${COLORS.gray[100]});
   --color-gray-300: hsl(${COLORS.gray[300]});
   --color-gray-500: hsl(${COLORS.gray[500]});

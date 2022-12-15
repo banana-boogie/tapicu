@@ -15,7 +15,6 @@ export default function Home() {
       </Head>
 
       <Main>
-        <Header />
         <Cookie />
       </Main>
       <Footer />

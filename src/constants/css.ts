@@ -21,13 +21,17 @@ export const COLORS = {
   },
   gray: {
     100: '185deg 5% 95%',
-    300: '190deg 5% 80%',
+    300: '0deg 0% 80%',
     500: '196deg 4% 60%',
     700: '220deg 5% 40%',
     900: '220deg 3% 20%',
   },
+  orange: {
+    300: '28deg 75% 71%',
+  },
   primary: '340deg 65% 47%',
   secondary: '240deg 60% 63%',
+  accent: '28deg 75% 71%'
 };
 
 export const FONT_SIZES = {

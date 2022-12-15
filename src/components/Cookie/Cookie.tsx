@@ -1,18 +1,26 @@
 //@ts-nocheck
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import styled from "styled-components";
 
-import UnstyledButton from '@components/UnstyledButton';
-import PaymentForm from '@components/PaymentForm';
-import PaymentProvider from '@components/PaymentProvider';
+import Icon from "@components/Icon";
+import PaymentForm from "@components/PaymentForm";
+import PaymentProvider from "@components/PaymentProvider";
+import ProgressBarComponent from "@components/ProgressBar";
+import UnstyledButton from "@components/UnstyledButton";
 
-import { COOKIE_PRICE } from '@constants/constants';
-import useInput from '@hooks/useInput.hook';
+import { COOKIE_PRICE } from "@constants/constants";
+import useInput from "@hooks/useInput.hook";
 
 export default function Cookie() {
-  const { value: cookieCount,  setValue: setCookieCount, onChange: cookieCountOnChange} = useInput(1);
+  const {
+    value: cookieCount,
+    setValue: setCookieCount,
+    onChange: cookieCountOnChange,
+  } = useInput(1);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const TOTAL_STEPS = 3;
 
   function getTotal() {
     return (cookieCount * COOKIE_PRICE).toFixed(2);
@@ -25,18 +33,45 @@ export default function Cookie() {
     }
   }, [cookieCount]);
 
+  const Checkout = () => {
+    return (
+      <CheckoutWrapper>
+        <CloseCheckoutButton onClick={() => setShowCheckout(false)}>
+          <CloseIcon id="close" strokeWidth={3} size={24} />
+        </CloseCheckoutButton>
+        <CheckoutHeader>Cookie Order Confirmation</CheckoutHeader>
+        <CheckoutOrder>
+          Cookies: {cookieCount} ${cookieCount * COOKIE_PRICE}
+        </CheckoutOrder>
+        <PaymentForm />
+      </CheckoutWrapper>
+    );
+  };
+
+  const PageHeader = () => {
+    return (
+      <PageHeaderWrapper>
+        {currentStep > 1 ? (
+          <BackButtonWrapper>
+            <BackButton onClick={() => setCurrentStep(currentStep - 1)}>
+              <BackIcon id="back" strokeWidth={3} size={24} />
+            </BackButton>
+          </BackButtonWrapper>
+        ) : (
+          <Spacer />
+        )}
+        <ProgressBar currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+        <Spacer />
+      </PageHeaderWrapper>
+    );
+  };
+
   return (
-    // TODO: Dynamic button for payment - check stripe docs to see if you can tell what button will render
     <PaymentProvider>
       <Wrapper>
+        <PageHeader />
         {showCheckout ? (
-          <div>
-            <h1>Cookie Order Confirmation</h1>
-            <span className="cookie-order">
-              Cookies: {cookieCount} ${cookieCount * COOKIE_PRICE}
-            </span>
-            <PaymentForm />
-          </div>
+          <Checkout />
         ) : (
           <>
             <CookieCounter>
@@ -52,7 +87,12 @@ export default function Cookie() {
                   height={72}
                 />
               </CounterButton>
-              <CookieNumber value={cookieCount} onChange={cookieCountOnChange} inputMode="numeric" onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}/>
+              <CookieNumber
+                value={cookieCount}
+                onChange={cookieCountOnChange}
+                inputMode="numeric"
+                onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
+              />
               <CounterButton
                 className="add-cookie"
                 onClick={() => setCookieCount(Number(cookieCount) + 1)}
@@ -65,9 +105,7 @@ export default function Cookie() {
                 />
               </CounterButton>
             </CookieCounter>
-            <Total>
-              Total: ${getTotal()}
-            </Total>
+            <Total>Total: ${getTotal()}</Total>
             <BuyButton onClick={() => setShowCheckout(true)}>
               Give Me Cookies!
             </BuyButton>
@@ -75,14 +113,34 @@ export default function Cookie() {
         )}
       </Wrapper>
     </PaymentProvider>
-  )
+  );
 }
 
 const Wrapper = styled.main`
   flex: 1;
   display: grid;
-  grid-template-rows: 2fr 1fr 100px;
+  grid-template-rows: 50px 2fr 1fr 100px;
 `;
+
+const Spacer = styled.div`
+  flex: 1;
+`;
+
+const PageHeaderWrapper = styled.div`
+  display: flex;
+`;
+
+const ProgressBar = styled(ProgressBarComponent)`
+  flex: 1;
+`;
+
+const BackButtonWrapper = styled.div`
+  flex: 1;
+  align-self: center;
+  padding-left: var(--space-sm);
+`;
+const BackButton = styled(UnstyledButton)``;
+const BackIcon = styled(Icon)``;
 
 const CookieCounter = styled.div`
   display: grid;
@@ -106,7 +164,7 @@ const CookieNumber = styled.input`
 `;
 
 const Total = styled.h2`
-text-align: center;
+  text-align: center;
 `;
 
 const BuyButton = styled(UnstyledButton)`
@@ -115,3 +173,12 @@ const BuyButton = styled(UnstyledButton)`
   background: var(--color-primary);
   border: 1px solid var(--color-primary);
 `;
+
+const CheckoutWrapper = styled.div``;
+
+const CheckoutHeader = styled.h1``;
+
+const CloseCheckoutButton = styled(UnstyledButton)``;
+const CloseIcon = styled(Icon)``;
+
+const CheckoutOrder = styled.p``;

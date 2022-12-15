@@ -1,7 +1,15 @@
 //@ts-nocheck
 import React from "react";
-import { useEffect, useState } from 'react';
-import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useEffect, useState } from "react";
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import styled from "styled-components";
+
+// TODO: test payment flow
+// TODO: receipt page
 
 export default function PaymentForm() {
   const stripe = useStripe();
@@ -10,12 +18,9 @@ export default function PaymentForm() {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [email, setEmail] = useState('');
-
   const paymentElementOptions = {
-    layout: "tabs"
-  }
-
+    layout: "tabs",
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,9 +55,6 @@ export default function PaymentForm() {
     setIsLoading(false);
   };
 
-
-
-
   useEffect(() => {
     if (!stripe) {
       return;
@@ -84,23 +86,34 @@ export default function PaymentForm() {
     });
   }, [stripe]);
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      {/* TODO OPTIONAL EMAIL */}
-      <input
-        id="email"
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter email address"
-      />
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
-  )
+    <Wrapper>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        {/* TODO OPTIONAL EMAIL */}
+        {/* <input
+          id="email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email address"
+        /> */}
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <button disabled={isLoading || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isLoading ? (
+              <div className="spinner" id="spinner"></div>
+            ) : (
+              "Pay now"
+            )}
+          </span>
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </Wrapper>
+  );
 }
+
+const Wrapper = styled.div`
+padding-left: var(--space-sm);
+padding-right: var(--space-sm);
+`;
