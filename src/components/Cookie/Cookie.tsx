@@ -109,6 +109,7 @@ export default function Cookie() {
                   />
                 </CounterButton>
                 <CookieNumber
+                  // TODO: limit numbers going past 100.. and below 0
                   value={cookieCount}
                   onChange={cookieCountOnChange}
                   inputMode="numeric"
