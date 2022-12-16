@@ -36,7 +36,7 @@ export default function Cookie() {
     if (cookieCount < 1) {
       setCookieCount(1);
     }
-  }, [cookieCount]);
+  }, [cookieCount, setCookieCount]);
 
   const Checkout = () => {
     return (
@@ -83,8 +83,8 @@ export default function Cookie() {
         <AbisCookieJarImage
           src={"/Abi's_Cookies_Cookie_Jar.svg"}
           alt=""
-          height={170}
-          width={170}
+          height={144}
+          width={144}
         />
         {showCheckout ? (
           <Checkout />
@@ -153,14 +153,16 @@ export default function Cookie() {
 
 const Wrapper = styled.main`
   flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0 var(--space-lg);
 `;
 
 const PageHeaderWrapper = styled.div`
   display: flex;
   padding-top: var(--space-lg);
-  padding-bottom: calc(var(--space-lg) + 8px);
+  padding-bottom: calc(var(--space-lg));
 `;
 
 const Spacer = styled.div`
@@ -178,7 +180,6 @@ const AbisCookieJarImage = styled(Image)`
 const BackButtonWrapper = styled.div`
   flex: 1;
   align-self: center;
-  transform: translateX(var(--space-md));
 `;
 const BackButton = styled(UnstyledButton)``;
 const BackIcon = styled(Icon)``;
@@ -188,9 +189,8 @@ const CookieCounterWrapper = styled.div`
   flex-direction: column;
   border: 1px solid var(--color-black);
   border-radius: 16px;
-  margin: var(--space-lg);
-  padding-top: calc(var(--space-xl));
-  padding-bottom: var(--space-xl);
+  margin-top: var(--space-md);
+  padding: var(--space-lg) 0;
 `;
 
 const Question = styled.h2`
@@ -219,7 +219,8 @@ const CookieNumber = styled.input`
 const CookiePrice = styled.p`
   text-align: center;
   font-size: var(--font-size-xs);
-  margin-top: calc(-1 * var(--space-sm));
+  margin: 0;
+  transform: translateY(calc(-1 * var(--space-xl)));
 `;
 
 const Divider = styled.hr`
@@ -247,9 +248,10 @@ const BuyButton = styled(UnstyledButton)`
   justify-content: center;
   color: var(--color-white);
   background: var(--color-primary);
-  margin: var(--space-lg);
+  margin-top: var(--space-md);
   padding: var(--space-md);
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--border-radius-xs);
+  font-size: var(--font-size-lg);
 `;
 
 const RightArrowIcon = styled(Icon)`
