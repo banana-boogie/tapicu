@@ -1,16 +1,16 @@
 //@ts-nocheck
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
 
-import Icon from "@components/Icon";
-import PaymentForm from "@components/PaymentForm";
-import PaymentProvider from "@components/PaymentProvider";
-import ProgressBarComponent from "@components/ProgressBar";
-import UnstyledButton from "@components/UnstyledButton";
+import Icon from '@components/Icon';
+import PaymentForm from '@components/PaymentForm';
+import PaymentProvider from '@components/PaymentProvider';
+import ProgressBarComponent from '@components/ProgressBar';
+import UnstyledButton from '@components/UnstyledButton';
 
-import { COOKIE_PRICE } from "@constants/constants";
-import useInput from "@hooks/useInput.hook";
+import { COOKIE_PRICE } from '@constants/constants';
+import useInput from '@hooks/useInput.hook';
 
 export default function Cookie() {
   const {
@@ -35,6 +35,8 @@ export default function Cookie() {
   useEffect(() => {
     if (cookieCount < 1) {
       setCookieCount(1);
+    } else if (cookieCount >= 100) {
+      setCookieCount(99);
     }
   }, [cookieCount, setCookieCount]);
 
@@ -63,7 +65,7 @@ export default function Cookie() {
                 id="back"
                 strokeWidth={2}
                 size={24}
-                color={"var(--color-accent)"}
+                color={'var(--color-accent)'}
               />
             </BackButton>
           </BackButtonWrapper>
@@ -83,8 +85,8 @@ export default function Cookie() {
         <AbisCookieJarImage
           src={"/Abi's_Cookies_Cookie_Jar.svg"}
           alt=""
-          height={144}
-          width={144}
+          height={169}
+          width={169}
         />
         {showCheckout ? (
           <Checkout />
@@ -140,8 +142,8 @@ export default function Cookie() {
               <RightArrowIcon
                 id="arrow-right"
                 strokeWidth={2}
-                size={18}
-                color={"var(--color-white)"}
+                size={24}
+                color={'var(--color-white)'}
               />
             </BuyButton>
           </>
@@ -156,13 +158,12 @@ const Wrapper = styled.main`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-md);
 `;
 
 const PageHeaderWrapper = styled.div`
   display: flex;
-  padding-top: var(--space-lg);
-  padding-bottom: calc(var(--space-lg));
+  padding: var(--space-md) 0;
 `;
 
 const Spacer = styled.div`
@@ -190,25 +191,30 @@ const CookieCounterWrapper = styled.div`
   border: 1px solid var(--color-black);
   border-radius: 16px;
   margin-top: var(--space-md);
-  padding: var(--space-lg) 0;
+  padding: var(--space-md) 0;
+  isolation: isolate;
 `;
 
 const Question = styled.h2`
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
+  font-size: calc(var(--font-size-lg) + 4px);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
+  z-index: 1;
 `;
 
 const CookieCounter = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs);
+  margin-top: calc(-1 * var(--space-lg));
+  margin-bottom: calc(-1 * var(--space-md));
 `;
 
 const CounterButton = styled(UnstyledButton)``;
 
 const CookieNumber = styled.input`
-  font-size: 92px;
+  font-size: 128px;
   text-align: center;
   border: none;
   width: 144px;
@@ -218,9 +224,10 @@ const CookieNumber = styled.input`
 
 const CookiePrice = styled.p`
   text-align: center;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
   margin: 0;
-  transform: translateY(calc(-1 * var(--space-xl)));
+  transform: translateY(calc(-1 * var(--space-sm)));
 `;
 
 const Divider = styled.hr`
@@ -236,10 +243,10 @@ const TotalWrapper = styled.div`
   margin-top: var(--space-sm);
 `;
 const Total = styled.h3`
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-medium);
 `;
 const TotalNumber = styled.h3`
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
 `;
 
 const BuyButton = styled(UnstyledButton)`
@@ -252,10 +259,12 @@ const BuyButton = styled(UnstyledButton)`
   padding: var(--space-md);
   border-radius: var(--border-radius-xs);
   font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
 `;
 
 const RightArrowIcon = styled(Icon)`
   margin-left: var(--space-sm);
+  transform: translateY(1px);
 `;
 
 const CheckoutWrapper = styled.div``;

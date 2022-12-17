@@ -31,7 +31,7 @@ export const COLORS = {
   },
   primary: '207deg, 100%, 49%',
   secondary: '240deg 60% 63%',
-  accent: '28deg 75% 71%'
+  accent: '28deg 75% 71%',
 };
 
 export const FONT_SIZES = {
@@ -45,8 +45,11 @@ export const FONT_SIZES = {
 };
 
 export const WEIGHTS = {
+  lightest: 300,
+  light: 400,
   normal: 500,
   medium: 600,
+  semiBold: 700,
   bold: 800,
 };
 

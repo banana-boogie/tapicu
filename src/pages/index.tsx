@@ -1,8 +1,8 @@
-import Head from "next/head";
-import styled from "styled-components";
+import Head from 'next/head';
+import styled from 'styled-components';
 
-import Cookie from "@components/Cookie";
-import Footer from "@components/Footer";
+import Cookie from '@components/Cookie';
+import Footer from '@components/Footer';
 
 export default function Home() {
   return (
@@ -23,7 +23,6 @@ export default function Home() {
 
 const Wrapper = styled.div`
   height: 100%;
-  /* height: calc(var(--vh, 1vh) * 100); */
 `;
 
 const Main = styled.div`

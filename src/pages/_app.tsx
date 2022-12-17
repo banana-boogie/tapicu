@@ -1,21 +1,14 @@
-import type { AppProps } from "next/app";
-import GlobalStyles from "@components/GlobalStyles";
-import { useEffect } from "react";
+import type { AppProps } from 'next/app';
+import GlobalStyles from '@components/GlobalStyles';
+
+import '@fontsource/open-sans/300.css';
+import '@fontsource/open-sans/400.css';
+import '@fontsource/open-sans/500.css';
+import '@fontsource/open-sans/600.css';
+import '@fontsource/open-sans/700.css';
+import '@fontsource/open-sans/800.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-    let vh = window.innerHeight * 0.01;
-    // Then we set the value in the --vh custom property to the root of the document
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-
-    // We listen to the resize event
-    window.addEventListener("resize", () => {
-      // We execute the same script as before
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    });
-  }, []);
   return (
     <>
       <GlobalStyles />

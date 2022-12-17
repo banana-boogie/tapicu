@@ -12,12 +12,12 @@ const Footer = () => {
         <Logo src="/logo.png" alt="logo" width={24} height={24} />
       </span>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.footer`
   padding: var(--space-xs);
-  margin-top: auto;
+  margin-top: var(--space-xl);
   display: flex;
   justify-content: center;
   gap: var(--space-xs);

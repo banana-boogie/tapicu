@@ -1,11 +1,11 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 import {
   COLORS,
   WEIGHTS,
   FONT_SIZES,
   SPACING,
   BORDER_RADIUS,
-} from "@constants/css";
+} from '@constants/css';
 
 const GlobalStyles = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -123,6 +123,7 @@ Global Styles
 body {
   color: var(--color-text);
   background: var(--color-background);
+  font-family: var(--font-family);
 }
 
 a:focus {
@@ -130,11 +131,12 @@ a:focus {
 }
 
 body, input, button, select, option {
-  font-family: var(--font-family);
   font-weight: var(--font-weight-light);
+  font-family: var(--font-family);
 }
 
 h1, h2, h3, h4, h5, h6, strong {
+  font-family: var(--font-family);
   font-weight: var(--font-weight-bold);
 } 
 
@@ -143,11 +145,13 @@ h1, h2, h3, h4, h5, h6, p {
 } 
 
 p {
+  font-family: var(--font-family);
   margin-bottom: 1.5em;
   font-size: 1.125rem;
 }
 
 em {
+  font-family: var(--font-family);
   font-style: italic;
 }
 
@@ -184,7 +188,7 @@ strong {
 *:after {
   box-sizing: border-box;
   line-height: 1.5;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: auto;
 }
@@ -197,6 +201,8 @@ html {
   --reach-dialog: 1;
  
   /* FONTS */
+  --font-family: 'Open Sans';
+
   /* FONT SIZES */
   --font-size-xxs: ${FONT_SIZES.xxs};
   --font-size-xs: ${FONT_SIZES.xs};
@@ -207,8 +213,11 @@ html {
   --font-size-xxl: ${FONT_SIZES.xxl};
 
   /* FONT WEIGHTS */
+  --font-weight-lightest: ${WEIGHTS.lightest};
+  --font-weight-light: ${WEIGHTS.light};
   --font-weight-normal: ${WEIGHTS.normal};
   --font-weight-medium: ${WEIGHTS.medium};
+  --font-weight-semibold: ${WEIGHTS.semiBold};
   --font-weight-bold: ${WEIGHTS.bold};
 
   /* SPACING */
