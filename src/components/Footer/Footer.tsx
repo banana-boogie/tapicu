@@ -17,7 +17,7 @@ const Footer = () => {
 
 const Wrapper = styled.footer`
   padding: var(--space-xs);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
   display: flex;
   justify-content: center;
   gap: var(--space-xs);

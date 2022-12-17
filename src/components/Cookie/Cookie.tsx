@@ -3,24 +3,24 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
+import CookieCounter from '@components/CookieCounter';
+import Checkout from '@components/Checkout';
 import Icon from '@components/Icon';
-import PaymentForm from '@components/PaymentForm';
-import PaymentProvider from '@components/PaymentProvider';
 import ProgressBarComponent from '@components/ProgressBar';
 import UnstyledButton from '@components/UnstyledButton';
 
 import { COOKIE_PRICE } from '@constants/constants';
-import useInput from '@hooks/useInput.hook';
 
 export default function Cookie() {
-  const {
-    value: cookieCount,
-    setValue: setCookieCount,
-    onChange: cookieCountOnChange,
-  } = useInput(1);
-  const [showCheckout, setShowCheckout] = useState(false);
+  const TOTAL_PROGRES_STEPS = 3;
   const [currentStep, setCurrentStep] = useState(0);
-  const TOTAL_STEPS = 3;
+  const [showCheckout, setShowCheckout] = useState(false);
+
+  const [cookieCount, setCookieCount] = useState(1);
+
+  function handleCookieCountChange(value: number) {
+    setCookieCount(value);
+  }
 
   function getTotal() {
     return (cookieCount * COOKIE_PRICE).toFixed(2);
@@ -29,6 +29,11 @@ export default function Cookie() {
   function handleBuyCookes() {
     setShowCheckout(true);
     setCurrentStep(1);
+  }
+
+  function handleBack() {
+    showCheckout ? setShowCheckout(false) : setShowCheckout(true);
+    setCurrentStep(currentStep - 1);
   }
 
   // Make it so that you can't have less than 1 cookie
@@ -40,27 +45,12 @@ export default function Cookie() {
     }
   }, [cookieCount, setCookieCount]);
 
-  const Checkout = () => {
-    return (
-      <CheckoutWrapper>
-        <CloseCheckoutButton onClick={() => setShowCheckout(false)}>
-          <CloseIcon id="close" strokeWidth={3} size={24} />
-        </CloseCheckoutButton>
-        <CheckoutHeader>Cookie Order Confirmation</CheckoutHeader>
-        <CheckoutOrder>
-          Cookies: {cookieCount} ${cookieCount * COOKIE_PRICE}
-        </CheckoutOrder>
-        <PaymentForm />
-      </CheckoutWrapper>
-    );
-  };
-
   const PageHeader = () => {
     return (
       <PageHeaderWrapper>
         {currentStep > 0 ? (
           <BackButtonWrapper>
-            <BackButton onClick={() => setCurrentStep(currentStep - 1)}>
+            <BackButton onClick={handleBack}>
               <BackIcon
                 id="back"
                 strokeWidth={2}
@@ -72,84 +62,59 @@ export default function Cookie() {
         ) : (
           <Spacer />
         )}
-        <ProgressBar currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+        <ProgressBar
+          currentStep={currentStep}
+          totalSteps={TOTAL_PROGRES_STEPS}
+        />
         <Spacer />
       </PageHeaderWrapper>
     );
   };
 
   return (
-    <PaymentProvider>
-      <Wrapper>
-        <PageHeader />
-        <AbisCookieJarImage
-          src={"/Abi's_Cookies_Cookie_Jar.svg"}
-          alt=""
-          height={169}
-          width={169}
+    <Wrapper>
+      <PageHeader />
+      {showCheckout ? (
+        <Checkout
+          cookieCount={cookieCount}
+          cookieCountOnChange={handleCookieCountChange}
         />
-        {showCheckout ? (
-          <Checkout />
-        ) : (
-          <>
-            <CookieCounterWrapper>
-              <Question>
-                How many cookies <br /> would you like?
-              </Question>
+      ) : (
+        <>
+          <AbisCookieJarImage
+            src={"/Abi's_Cookies_Cookie_Jar.svg"}
+            alt=""
+            height={169}
+            width={169}
+          />
+          <CookieCounterWrapper>
+            <Question>
+              How many cookies <br /> would you like?
+            </Question>
 
-              <CookieCounter>
-                <CounterButton
-                  onClick={() =>
-                    cookieCount > 1 && setCookieCount(Number(cookieCount) - 1)
-                  }
-                >
-                  <Image
-                    src="/minus_button.svg"
-                    alt="minus button"
-                    width={48}
-                    height={48}
-                  />
-                </CounterButton>
-                <CookieNumber
-                  // TODO: limit numbers going past 100.. and below 0
-                  value={cookieCount}
-                  onChange={cookieCountOnChange}
-                  inputMode="numeric"
-                  onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
-                />
-                <CounterButton
-                  onClick={() =>
-                    cookieCount < 99 && setCookieCount(Number(cookieCount) + 1)
-                  }
-                >
-                  <Image
-                    src="/plus_button.svg"
-                    alt="plus button"
-                    width={48}
-                    height={48}
-                  />
-                </CounterButton>
-              </CookieCounter>
-              <CookiePrice>(${COOKIE_PRICE} per cookie)</CookiePrice>
-              <Divider />
-              <TotalWrapper>
-                <Total>Total </Total>
-                <TotalNumber>${getTotal()}</TotalNumber>
-              </TotalWrapper>
-            </CookieCounterWrapper>
-            <BuyButton onClick={handleBuyCookes}>
-              Buy Cookies
-              <RightArrowIcon
-                id="arrow-right"
-                strokeWidth={2}
-                size={24}
-                color={'var(--color-white)'}
-              />
-            </BuyButton>
-          </>
-        )}
-      </Wrapper>
-    </PaymentProvider>
+            <CookieCounter
+              cookieCount={cookieCount}
+              cookieCountOnChange={handleCookieCountChange}
+            />
+            <CookiePrice>(${COOKIE_PRICE} per cookie)</CookiePrice>
+            <Divider />
+            <TotalWrapper>
+              <Total>Total </Total>
+              <TotalNumber>${getTotal()}</TotalNumber>
+            </TotalWrapper>
+          </CookieCounterWrapper>
+          <BuyButton onClick={handleBuyCookes}>
+            Buy Cookies
+            <RightArrowIcon
+              id="arrow-right"
+              strokeWidth={2}
+              size={24}
+              color={'var(--color-white)'}
+            />
+          </BuyButton>
+        </>
+      )}
+    </Wrapper>
   );
 }
 
@@ -202,26 +167,6 @@ const Question = styled.h2`
   z-index: 1;
 `;
 
-const CookieCounter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  margin-top: calc(-1 * var(--space-lg));
-  margin-bottom: calc(-1 * var(--space-md));
-`;
-
-const CounterButton = styled(UnstyledButton)``;
-
-const CookieNumber = styled.input`
-  font-size: 128px;
-  text-align: center;
-  border: none;
-  width: 144px;
-  padding: 0;
-  text-align: center;
-`;
-
 const CookiePrice = styled.p`
   text-align: center;
   font-size: var(--font-size-sm);
@@ -266,12 +211,3 @@ const RightArrowIcon = styled(Icon)`
   margin-left: var(--space-sm);
   transform: translateY(1px);
 `;
-
-const CheckoutWrapper = styled.div``;
-
-const CheckoutHeader = styled.h1``;
-
-const CloseCheckoutButton = styled(UnstyledButton)``;
-const CloseIcon = styled(Icon)``;
-
-const CheckoutOrder = styled.p``;
