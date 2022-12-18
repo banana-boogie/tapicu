@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import React from "react";
+import Image from "next/image";
+import styled from "styled-components";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <Wrapper>
       <Link href="" target="_blank" rel="noopener noreferrer">
@@ -13,7 +13,7 @@ const Footer = () => {
       </span>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.footer`
   padding: var(--space-xs);
@@ -31,5 +31,3 @@ const Link = styled.a`
 const Logo = styled(Image)`
   border-radius: 999px;
 `;
-
-export default Footer;
