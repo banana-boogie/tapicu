@@ -78,11 +78,12 @@ export default function Cookie() {
         <Checkout
           cookieCount={cookieCount}
           cookieCountOnChange={handleCookieCountChange}
+          total={getTotal()}
         />
       ) : (
         <>
           <AbisCookieJarImage
-            src={"/Abi's_Cookies_Cookie_Jar.svg"}
+            src={"/abi's_cookies_cookie_jar.svg"}
             alt=""
             height={169}
             width={169}
@@ -165,6 +166,7 @@ const Question = styled.h2`
   font-weight: var(--font-weight-semibold);
   text-align: center;
   z-index: 1;
+  margin-bottom: calc(-1 * var(--space-md));
 `;
 
 const CookiePrice = styled.p`
@@ -173,6 +175,7 @@ const CookiePrice = styled.p`
   font-weight: var(--font-weight-light);
   margin: 0;
   transform: translateY(calc(-1 * var(--space-sm)));
+  margin-top: calc(-1 * var(--space-lg));
 `;
 
 const Divider = styled.hr`

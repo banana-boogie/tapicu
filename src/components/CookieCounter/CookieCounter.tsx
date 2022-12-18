@@ -7,27 +7,83 @@ import UnstyledButton from '@components/UnstyledButton';
 type Props = {
   cookieCount: number;
   cookieCountOnChange: (value: number) => void;
+  variantType: string;
+  delegated?: any;
 };
 
-const CookieCounter = ({ cookieCount, cookieCountOnChange }: Props) => {
+type Variants = {
+  [key: string]: {
+    counterSize: number;
+    countSize: string;
+    countWeight: string;
+    countWidth: string;
+    counterGap: string;
+    plusButtonSource: string;
+    minusButtonSource: string;
+  };
+};
+
+const CookieCounter = ({
+  cookieCount,
+  cookieCountOnChange,
+  variantType = 'large',
+  ...delegated
+}: Props) => {
+  const variants: Variants = {
+    large: {
+      counterSize: 48,
+      countSize: '124px',
+      countWeight: 'var(--font-weight-regular)',
+      countWidth: '144px',
+      counterGap: 'var(--space-xs)',
+      plusButtonSource: '/plus_blue.svg',
+      minusButtonSource: '/minus_blue.svg',
+    },
+    small: {
+      counterSize: 24,
+      countSize: '24px',
+      countWeight: 'var(--font-weight-medium)',
+      countWidth: '16px',
+      counterGap: '0px',
+      plusButtonSource: '/plus_outline.svg',
+      minusButtonSource: '/minus_outline.svg',
+    },
+  };
+  const variant = variants[variantType];
+  if (!variant) {
+    throw new Error('Invalid variant: not found');
+  }
+
   function inputHandler(e: { target: { value: string } }) {
     cookieCountOnChange(Number(e.target.value));
   }
   return (
-    <Wrapper>
+    <Wrapper
+      style={{
+        // @ts-ignore
+        '--gap': variant.counterGap,
+      }}
+      {...delegated}
+    >
       <CounterButton
         onClick={() =>
           cookieCount > 1 && cookieCountOnChange(Number(cookieCount) - 1)
         }
       >
         <Image
-          src="/minus_button.svg"
+          src={variant.minusButtonSource}
           alt="minus button"
-          width={48}
-          height={48}
+          width={variant.counterSize}
+          height={variant.counterSize}
         />
       </CounterButton>
       <CookieNumber
+        style={{
+          // @ts-ignore
+          '--font-size': variant.countSize,
+          '--font-weight': variant.countWeight,
+          '--width': variant.countWidth,
+        }}
         value={cookieCount}
         onChange={inputHandler}
         inputMode="numeric"
@@ -39,10 +95,10 @@ const CookieCounter = ({ cookieCount, cookieCountOnChange }: Props) => {
         }
       >
         <Image
-          src="/plus_button.svg"
+          src={variant.plusButtonSource}
           alt="plus button"
-          width={48}
-          height={48}
+          width={variant.counterSize}
+          height={variant.counterSize}
         />
       </CounterButton>
     </Wrapper>
@@ -54,17 +110,16 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  margin-top: calc(-1 * var(--space-lg));
-  margin-bottom: calc(-1 * var(--space-md));
 `;
 
 const CounterButton = styled(UnstyledButton)``;
 
 const CookieNumber = styled.input`
-  font-size: 128px;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
   text-align: center;
   border: none;
-  width: 144px;
+  width: var(--width);
   padding: 0;
   text-align: center;
 `;
