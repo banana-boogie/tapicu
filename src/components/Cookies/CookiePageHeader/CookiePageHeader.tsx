@@ -1,27 +1,33 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Icon from "@components/Icon";
-import ProgressBarComponent from "@components/ProgressBar";
-import UnstyledButton from "@components/UnstyledButton";
+import Icon from '@components/Icon';
+import ProgressBarComponent from '@components/ProgressBar';
+import UnstyledButton from '@components/UnstyledButton';
 
 type Props = {
   currentStep: number;
   totalSteps: number;
   handleBack: () => void;
+  hideArrow?: boolean;
 };
 
-function CookiePageHeader({ currentStep, totalSteps, handleBack }: Props) {
+function CookiePageHeader({
+  currentStep,
+  totalSteps,
+  handleBack,
+  hideArrow,
+}: Props) {
   return (
     <PageHeaderWrapper>
-      {currentStep > 0 ? (
+      {currentStep > 0 && !hideArrow ? (
         <BackButtonWrapper>
           <BackButton onClick={handleBack}>
             <BackIcon
               id="back"
               strokeWidth={2}
               size={24}
-              color={"var(--color-accent)"}
+              color={'var(--color-accent)'}
             />
           </BackButton>
         </BackButtonWrapper>

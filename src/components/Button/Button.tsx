@@ -1,24 +1,27 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Icon from "@components/Icon";
-import UnstyledButton from "@components/UnstyledButton";
+import Icon from '@components/Icon';
+import UnstyledButton from '@components/UnstyledButton';
 
 type Props = {
   onClickHandler: () => void;
+  hideArrow?: boolean;
   children: React.ReactNode;
 };
 
-function Button({ onClickHandler, children, ...delegated }: Props) {
+function Button({ hideArrow, onClickHandler, children, ...delegated }: Props) {
   return (
     <Wrapper onClick={onClickHandler} {...delegated}>
       {children}
-      <RightArrowIcon
-        id="arrow-right"
-        strokeWidth={2}
-        size={24}
-        color={"var(--color-white)"}
-      />
+      {!hideArrow && (
+        <RightArrowIcon
+          id="arrow-right"
+          strokeWidth={2}
+          size={24}
+          color={'var(--color-white)'}
+        />
+      )}
     </Wrapper>
   );
 }

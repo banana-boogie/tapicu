@@ -1,26 +1,28 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
-  Search,
-  Menu,
-  ShoppingBag,
-  ChevronDown,
-  X,
-  Instagram,
-  Youtube,
-  Facebook,
-  Loader,
-  Copy,
-  Link,
   ArrowLeft,
   ArrowRight,
-} from "./IconPack";
+  Copy,
+  ChevronDown,
+  Email,
+  Facebook,
+  Menu,
+  Instagram,
+  Loader,
+  Link,
+  Search,
+  ShoppingBag,
+  Youtube,
+  X,
+} from './IconPack';
 
 const icons = {
   search: Search,
   menu: Menu,
-  "shopping-bag": ShoppingBag,
-  "chevron-down": ChevronDown,
+  'shopping-bag': ShoppingBag,
+  'chevron-down': ChevronDown,
+  email: Email,
   close: X,
   facebook: Facebook,
   instagram: Instagram,
@@ -29,10 +31,10 @@ const icons = {
   copy: Copy,
   link: Link,
   back: ArrowLeft,
-  "arrow-right": ArrowRight,
+  'arrow-right': ArrowRight,
 };
 
-const Icon = ({ id, color = "black", size, strokeWidth, ...delegated }) => {
+const Icon = ({ id, color = 'black', size, strokeWidth, ...delegated }) => {
   const Component = icons[id];
 
   if (!Component) {
@@ -50,7 +52,7 @@ const Wrapper = styled.div`
   & > svg {
     display: block;
     stroke-width: ${(p) =>
-      p.strokeWidth !== undefined ? p.strokeWidth + "px" : undefined};
+      p.strokeWidth !== undefined ? p.strokeWidth + 'px' : undefined};
   }
 `;
 
