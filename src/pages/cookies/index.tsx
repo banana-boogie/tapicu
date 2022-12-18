@@ -1,30 +1,26 @@
-//@ts-nocheck
+import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 
 import Button from "@components/Button";
-import CookieCounter from "@components/CookieCounter";
+import CookiePageHeader from "@/components/Cookies/CookiePageHeader";
+import CookieCounter from "@/components/Cookies/CookieCounter";
 import Checkout from "@components/Checkout";
-import Icon from "@components/Icon";
-import ProgressBarComponent from "@components/ProgressBar";
-import UnstyledButton from "@components/UnstyledButton";
 
 import { COOKIE_PRICE } from "@constants/constants";
 
 export default function Cookie() {
-  const TOTAL_PROGRES_STEPS = 3;
-  const [currentStep, setCurrentStep] = useState(0);
   const [showCheckout, setShowCheckout] = useState(false);
-
   const [cookieCount, setCookieCount] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
   function handleCookieCountChange(value: number) {
     setCookieCount(value);
   }
 
-  function getTotal() {
-    return (cookieCount * COOKIE_PRICE).toFixed(2);
+  function getTotal(): number {
+    return Number((cookieCount * COOKIE_PRICE).toFixed(2));
   }
 
   function handleBuyCookes() {
@@ -46,35 +42,13 @@ export default function Cookie() {
     }
   }, [cookieCount, setCookieCount]);
 
-  const PageHeader = () => {
-    return (
-      <PageHeaderWrapper>
-        {currentStep > 0 ? (
-          <BackButtonWrapper>
-            <BackButton onClick={handleBack}>
-              <BackIcon
-                id="back"
-                strokeWidth={2}
-                size={24}
-                color={"var(--color-accent)"}
-              />
-            </BackButton>
-          </BackButtonWrapper>
-        ) : (
-          <Spacer />
-        )}
-        <ProgressBar
-          currentStep={currentStep}
-          totalSteps={TOTAL_PROGRES_STEPS}
-        />
-        <Spacer />
-      </PageHeaderWrapper>
-    );
-  };
-
   return (
     <Wrapper>
-      <PageHeader />
+      <CookiePageHeader
+        currentStep={currentStep}
+        totalSteps={3}
+        handleBack={handleBack}
+      />
       {showCheckout ? (
         <Checkout
           cookieCount={cookieCount}
@@ -95,6 +69,7 @@ export default function Cookie() {
             </Question>
 
             <CookieCounter
+              variantType="large"
               cookieCount={cookieCount}
               cookieCountOnChange={handleCookieCountChange}
             />
@@ -105,7 +80,7 @@ export default function Cookie() {
               <TotalNumber>${getTotal()}</TotalNumber>
             </TotalWrapper>
           </CookieCounterWrapper>
-          <BuyButton onClick={handleBuyCookes}>Buy Cookies</BuyButton>
+          <BuyButton onClickHandler={handleBuyCookes}>Buy Cookies</BuyButton>
         </>
       )}
     </Wrapper>
@@ -120,29 +95,9 @@ const Wrapper = styled.main`
   padding: 0 var(--space-md);
 `;
 
-const PageHeaderWrapper = styled.div`
-  display: flex;
-  padding: var(--space-md) 0;
-`;
-
-const Spacer = styled.div`
-  flex: 1;
-`;
-
-const ProgressBar = styled(ProgressBarComponent)`
-  max-height: 100px;
-`;
-
 const AbisCookieJarImage = styled(Image)`
   align-self: center;
 `;
-
-const BackButtonWrapper = styled.div`
-  flex: 1;
-  align-self: center;
-`;
-const BackButton = styled(UnstyledButton)``;
-const BackIcon = styled(Icon)``;
 
 const CookieCounterWrapper = styled.div`
   display: flex;

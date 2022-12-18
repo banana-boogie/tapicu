@@ -88,6 +88,7 @@ export default function PaymentForm() {
   }, [stripe]);
   return (
     <Wrapper>
+      {/* Show any error or success messages */}
       <Form onSubmit={handleSubmit}>
         <PaymentElement options={paymentElementOptions} />
         <PayButton disabled={isLoading || !stripe || !elements}>
@@ -99,8 +100,6 @@ export default function PaymentForm() {
             )}
           </PayButtonText>
         </PayButton>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
       </Form>
     </Wrapper>
   );

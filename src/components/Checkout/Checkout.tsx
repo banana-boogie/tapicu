@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { COOKIE_PRICE } from "@constants/constants";
 
-import CookieCounterComponent from "@components/CookieCounter";
+import CookieCounterComponent from "@/components/Cookies/CookieCounter";
 import PaymentForm from "@components/PaymentForm";
 import PaymentProvider from "@components/PaymentProvider";
 

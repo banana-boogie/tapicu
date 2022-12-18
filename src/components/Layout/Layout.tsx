@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Footer from "../Footer";
+import Footer from "@components/Footer";
 
 type Props = {
   children: React.ReactNode;
