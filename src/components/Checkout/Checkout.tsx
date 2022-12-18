@@ -1,12 +1,12 @@
-import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import React from "react";
+import Image from "next/image";
+import styled from "styled-components";
 
-import { COOKIE_PRICE } from '@constants/constants';
+import { COOKIE_PRICE } from "@constants/constants";
 
-import CookieCounterComponent from '@components/CookieCounter';
-import PaymentForm from '@components/PaymentForm';
-import PaymentProvider from '@components/PaymentProvider';
+import CookieCounterComponent from "@components/CookieCounter";
+import PaymentForm from "@components/PaymentForm";
+import PaymentProvider from "@components/PaymentProvider";
 
 type Props = {
   cookieCount: number;
@@ -30,7 +30,7 @@ const Checkout = ({ cookieCount, cookieCountOnChange, total }: Props) => {
             <CookiePrice>${COOKIE_PRICE}</CookiePrice>
           </OrderDescriptionWrapper>
           <CookieCounter
-            variantType={'small'}
+            variantType={"small"}
             cookieCount={cookieCount}
             cookieCountOnChange={cookieCountOnChange}
           />
@@ -49,6 +49,8 @@ const Checkout = ({ cookieCount, cookieCountOnChange, total }: Props) => {
 const CheckoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 var(--space-lg);
+  margin-top: var(--space-md);
 `;
 
 const CheckoutOrder = styled.div`
@@ -56,6 +58,7 @@ const CheckoutOrder = styled.div`
   border: 1px solid var(--color-gray-500);
   border-radius: var(--border-radius-xs);
   padding: var(--space-sm) var(--space-xs);
+  margin-bottom: var(--space-sm);
 `;
 
 const CookieCounter = styled(CookieCounterComponent)`
@@ -86,7 +89,6 @@ const CookiePrice = styled.p`
 
 const Divider = styled.hr`
   width: 100%;
-  margin: 0 var(--space-lg);
   border: none;
   border-top: 2px solid var(--color-gray-300);
 `;
@@ -94,14 +96,14 @@ const Divider = styled.hr`
 const TotalWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--space-lg);
-  margin-top: var(--space-sm);
+  padding: 0 var(--space-xxs);
 `;
+
 const Total = styled.h3`
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
 `;
 const TotalNumber = styled.h3`
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
 `;
 
 export default Checkout;

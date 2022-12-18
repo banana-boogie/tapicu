@@ -1,15 +1,16 @@
 //@ts-nocheck
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import styled from "styled-components";
 
-import CookieCounter from '@components/CookieCounter';
-import Checkout from '@components/Checkout';
-import Icon from '@components/Icon';
-import ProgressBarComponent from '@components/ProgressBar';
-import UnstyledButton from '@components/UnstyledButton';
+import Button from "@components/Button";
+import CookieCounter from "@components/CookieCounter";
+import Checkout from "@components/Checkout";
+import Icon from "@components/Icon";
+import ProgressBarComponent from "@components/ProgressBar";
+import UnstyledButton from "@components/UnstyledButton";
 
-import { COOKIE_PRICE } from '@constants/constants';
+import { COOKIE_PRICE } from "@constants/constants";
 
 export default function Cookie() {
   const TOTAL_PROGRES_STEPS = 3;
@@ -55,7 +56,7 @@ export default function Cookie() {
                 id="back"
                 strokeWidth={2}
                 size={24}
-                color={'var(--color-accent)'}
+                color={"var(--color-accent)"}
               />
             </BackButton>
           </BackButtonWrapper>
@@ -104,15 +105,7 @@ export default function Cookie() {
               <TotalNumber>${getTotal()}</TotalNumber>
             </TotalWrapper>
           </CookieCounterWrapper>
-          <BuyButton onClick={handleBuyCookes}>
-            Buy Cookies
-            <RightArrowIcon
-              id="arrow-right"
-              strokeWidth={2}
-              size={24}
-              color={'var(--color-white)'}
-            />
-          </BuyButton>
+          <BuyButton onClick={handleBuyCookes}>Buy Cookies</BuyButton>
         </>
       )}
     </Wrapper>
@@ -197,20 +190,4 @@ const TotalNumber = styled.h3`
   font-weight: var(--font-weight-semibold);
 `;
 
-const BuyButton = styled(UnstyledButton)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-white);
-  background: var(--color-primary);
-  margin-top: var(--space-md);
-  padding: var(--space-md);
-  border-radius: var(--border-radius-xs);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-`;
-
-const RightArrowIcon = styled(Icon)`
-  margin-left: var(--space-sm);
-  transform: translateY(1px);
-`;
+const BuyButton = styled(Button)``;

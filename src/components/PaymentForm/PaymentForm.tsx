@@ -7,6 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import styled from "styled-components";
+import Button from "@components/Button";
 
 // TODO: test payment flow
 // TODO: receipt page
@@ -87,33 +88,35 @@ export default function PaymentForm() {
   }, [stripe]);
   return (
     <Wrapper>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        {/* TODO OPTIONAL EMAIL */}
-        {/* <input
-          id="email"
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email address"
-        /> */}
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
+      <Form onSubmit={handleSubmit}>
+        <PaymentElement options={paymentElementOptions} />
+        <PayButton disabled={isLoading || !stripe || !elements}>
+          <PayButtonText>
             {isLoading ? (
-              <div className="spinner" id="spinner"></div>
+              <Spinner className="spinner" id="spinner"></Spinner>
             ) : (
-              "Pay now"
+              "Submit Order"
             )}
-          </span>
-        </button>
+          </PayButtonText>
+        </PayButton>
         {/* Show any error or success messages */}
         {message && <div id="payment-message">{message}</div>}
-      </form>
+      </Form>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-padding-left: var(--space-sm);
-padding-right: var(--space-sm);
+  margin-top: var(--space-xl);
 `;
+
+const Form = styled.form``;
+
+const PayButton = styled(Button)`
+  width: 100%;
+  margin-top: var(--space-lg);
+`;
+
+const PayButtonText = styled.span``;
+
+const Spinner = styled.div``;
