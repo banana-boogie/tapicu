@@ -34,6 +34,10 @@ export const COLORS = {
   accent: '28deg 75% 71%',
 };
 
+export const FONTS = {
+  primary: 'Open Sans, sans-serif',
+};
+
 export const FONT_SIZES = {
   xxs: '8px',
   xs: '12px',

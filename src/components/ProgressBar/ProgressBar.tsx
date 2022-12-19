@@ -1,38 +1,32 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-// game plan
-// total number of steps
-// current step
-// render current step
-// figure out how to know when to update the current step , probably event driven
-
-interface PropTypes {
+type PropTypes = {
   currentStep: number;
   totalSteps: number;
-}
+};
 
 function ProgressBar({ currentStep, totalSteps, ...delegated }: PropTypes) {
   const Bar = [];
   for (let i = 0; i < totalSteps; i++) {
     const color =
-      i <= currentStep ? "var(--color-accent)" : "var(--color-gray-300)";
+      i <= currentStep ? 'var(--color-accent)' : 'var(--color-gray-300)';
     if (i === 0) {
       Bar.push(
-        <>
-          <Circle color={color}>
-            <InnerCircle />
+        <Unit key={i}>
+          <Circle key={`circle-${i}`} color={color}>
+            <InnerCircle key={`inner-circle-${i}`} />
           </Circle>
-        </>
+        </Unit>
       );
     } else {
       Bar.push(
-        <>
-          <Line color={color} />
-          <Circle color={color}>
-            <InnerCircle />
+        <Unit key={i}>
+          <Line key={`line-${i}`} color={color} />
+          <Circle key={`circle-${i}`} color={color}>
+            <InnerCircle key={`inner-circle-${i}`} />
           </Circle>
-        </>
+        </Unit>
       );
     }
   }
@@ -40,6 +34,11 @@ function ProgressBar({ currentStep, totalSteps, ...delegated }: PropTypes) {
 }
 
 const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Unit = styled.div`
   display: flex;
   align-items: center;
 `;

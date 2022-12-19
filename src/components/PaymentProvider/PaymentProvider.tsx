@@ -1,20 +1,19 @@
-//@ts-nocheck
 import React from 'react';
 
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 
 type Props = {
+  cookies: number;
   children: React.ReactNode;
 };
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+const stripPublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
+const stripePromise = loadStripe(stripPublicKey);
 
-export default function PaymentWrapper({ children }: Props) {
+export default function PaymentProvider({ cookies, children }: Props) {
   const [clientSecret, setClientSecret] = React.useState('');
 
   React.useEffect(() => {
@@ -22,16 +21,19 @@ export default function PaymentWrapper({ children }: Props) {
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cookies: 1 }),
+      body: JSON.stringify({ cookies: cookies }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+  }, [cookies]);
 
-  const appearance = {
+  const appearance: StripeElementsOptions['appearance'] = {
     theme: 'stripe',
+    variables: {
+      colorPrimary: 'var(--color-primary)',
+    },
   };
-  const options = {
+  const options: StripeElementsOptions = {
     clientSecret,
     appearance,
   };

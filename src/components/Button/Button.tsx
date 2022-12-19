@@ -7,12 +7,20 @@ import UnstyledButton from '@components/UnstyledButton';
 type Props = {
   onClickHandler: () => void;
   hideArrow?: boolean;
+  style?: any;
+  disabled?: boolean;
   children: React.ReactNode;
 };
 
-function Button({ hideArrow, onClickHandler, children, ...delegated }: Props) {
+function Button({
+  hideArrow,
+  disabled,
+  onClickHandler,
+  children,
+  ...delegated
+}: Props) {
   return (
-    <Wrapper onClick={onClickHandler} {...delegated}>
+    <Wrapper onClick={onClickHandler} disabled={disabled} {...delegated}>
       {children}
       {!hideArrow && (
         <RightArrowIcon

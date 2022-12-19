@@ -23,6 +23,7 @@ function Receipt({ orderNumber = '000012' }: Props) {
   function handleBack() {
     router.push('/cookies');
   }
+
   return (
     <Wrapper>
       <CookiePageHeader

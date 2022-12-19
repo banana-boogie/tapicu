@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import {
   COLORS,
   WEIGHTS,
+  FONTS,
   FONT_SIZES,
   SPACING,
   BORDER_RADIUS,
@@ -201,7 +202,7 @@ html {
   --reach-dialog: 1;
  
   /* FONTS */
-  --font-family: 'Open Sans';
+  --font-family: ${FONTS.primary};
 
   /* FONT SIZES */
   --font-size-xxs: ${FONT_SIZES.xxs};

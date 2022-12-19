@@ -1,29 +1,23 @@
-//@ts-nocheck
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   PaymentElement,
   useStripe,
   useElements,
-} from "@stripe/react-stripe-js";
-import styled from "styled-components";
-import Button from "@components/Button";
+} from '@stripe/react-stripe-js';
+import styled from 'styled-components';
+import Button from '@components/Button';
 
-// TODO: test payment flow
-// TODO: receipt page
+const STRIPE_RETURN_URL = process.env.NEXT_PUBLIC_STRIPE_RETURN_URL;
 
 export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -33,12 +27,13 @@ export default function PaymentForm() {
     }
 
     setIsLoading(true);
-
+    const returnUrl =
+      STRIPE_RETURN_URL || `https://${window.location.host}/cookies/receipt`;
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: returnUrl,
       },
     });
 
@@ -47,10 +42,11 @@ export default function PaymentForm() {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
+    if (error.type === 'card_error' || error.type === 'validation_error') {
+      const errorMessage = error.message || 'An unexpected error occurred.';
+      setMessage(errorMessage);
     } else {
-      setMessage("An unexpected error occurred.");
+      setMessage('An unexpected error occurred.');
     }
 
     setIsLoading(false);
@@ -62,7 +58,7 @@ export default function PaymentForm() {
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
+      'payment_intent_client_secret'
     );
 
     if (!clientSecret) {
@@ -70,33 +66,42 @@ export default function PaymentForm() {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
+      const status = paymentIntent?.status || {};
+      switch (status) {
+        case 'succeeded':
+          setMessage('Payment succeeded!');
           break;
-        case "processing":
-          setMessage("Your payment is processing.");
+        case 'processing':
+          setMessage('Your payment is processing.');
           break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
+        case 'requires_payment_method':
+          setMessage('Your payment was not successful, please try again.');
           break;
         default:
-          setMessage("Something went wrong.");
+          setMessage('Something went wrong.');
           break;
       }
     });
   }, [stripe]);
+
   return (
     <Wrapper>
-      {/* Show any error or success messages */}
+      {
+        /* Show any error or success messages */
+        message && <Message>{message}</Message>
+      }
       <Form onSubmit={handleSubmit}>
-        <PaymentElement options={paymentElementOptions} />
-        <PayButton disabled={isLoading || !stripe || !elements}>
+        {/* @ts-ignore */}
+        <PaymentElement options={{ layout: 'accordion' }} />
+        <PayButton
+          onClickHandler={() => {}}
+          disabled={isLoading || !stripe || !elements}
+        >
           <PayButtonText>
             {isLoading ? (
               <Spinner className="spinner" id="spinner"></Spinner>
             ) : (
-              "Submit Order"
+              'Submit Order'
             )}
           </PayButtonText>
         </PayButton>
@@ -110,6 +115,8 @@ const Wrapper = styled.div`
 `;
 
 const Form = styled.form``;
+
+const Message = styled.p``;
 
 const PayButton = styled(Button)`
   width: 100%;

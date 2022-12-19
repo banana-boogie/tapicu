@@ -1,12 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import styled from "styled-components";
+import React from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
 
-import { COOKIE_PRICE } from "@constants/constants";
+import { COOKIE_PRICE } from '@constants/constants';
 
-import CookieCounterComponent from "@/components/Cookies/CookieCounter";
-import PaymentForm from "@components/PaymentForm";
-import PaymentProvider from "@components/PaymentProvider";
+import CookieCounterComponent from '@/components/Cookies/CookieCounter';
+import PaymentForm from '@components/PaymentForm';
+import PaymentProvider from '@components/PaymentProvider';
 
 type Props = {
   cookieCount: number;
@@ -16,7 +16,7 @@ type Props = {
 
 const Checkout = ({ cookieCount, cookieCountOnChange, total }: Props) => {
   return (
-    <PaymentProvider>
+    <PaymentProvider cookies={cookieCount}>
       <CheckoutWrapper>
         <CheckoutOrder>
           <CookiesImage
@@ -30,7 +30,7 @@ const Checkout = ({ cookieCount, cookieCountOnChange, total }: Props) => {
             <CookiePrice>${COOKIE_PRICE}</CookiePrice>
           </OrderDescriptionWrapper>
           <CookieCounter
-            variantType={"small"}
+            variantType={'small'}
             cookieCount={cookieCount}
             cookieCountOnChange={cookieCountOnChange}
           />
