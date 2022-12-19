@@ -14,14 +14,45 @@ type Props = {
 function Receipt({ orderNumber = '000012' }: Props) {
   const router = useRouter();
   const [email, setEmail] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [message, setMessage] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  // TODO: figure out how to get these values
+  // TODO: validate email
+  // TODO: make message prettier
+  // TODO: figure out how to get total, amount of cookies, and order number
+  // TODO: include tax in stripe payment
   const total = (15.0).toFixed(2);
   const amount = 3;
 
   function handleBack() {
     router.push('/cookies');
+  }
+
+  function handleSendReceipt() {
+    // setIsButtonDisabled(true);
+    const paymentIntentId = new URLSearchParams(window.location.search).get(
+      'payment_intent'
+    );
+
+    if (!paymentIntentId) {
+      return setMessage('Error: no payment intent id found.');
+    }
+
+    fetch('/api/send-receipt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentIntentId, email }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          setMessage('Receipt sent!');
+        } else {
+          setMessage('Error: could not send receipt.');
+        }
+      })
+      .catch(() => {
+        setMessage('Error: could not send receipt.');
+      });
   }
 
   return (
@@ -50,6 +81,8 @@ function Receipt({ orderNumber = '000012' }: Props) {
           </div>
         </OrderLine>
       </ConfirmationBackground>
+
+      {message && <Message>{message}</Message>}
       <EmailWrapper>
         <EmailLabel htmlFor="email">
           <VisuallyHidden>Email my recipt</VisuallyHidden>
@@ -66,7 +99,7 @@ function Receipt({ orderNumber = '000012' }: Props) {
           />
         </EmailInputWrapper>
         <SendReceiptButton
-          onClickHandler={() => {}}
+          onClickHandler={handleSendReceipt}
           hideArrow={true}
           style={{
             '--background-color': isButtonDisabled
@@ -135,6 +168,9 @@ const OrderLine = styled.div`
     }
   }
 `;
+
+const Message = styled.p``;
+
 const EmailWrapper = styled.div`
   display: flex;
   flex-direction: column;

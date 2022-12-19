@@ -10,6 +10,8 @@ import Button from '@components/Button';
 
 const STRIPE_RETURN_URL = process.env.NEXT_PUBLIC_STRIPE_RETURN_URL;
 
+// TODO: bug where footer comes up to the Submit Order button
+
 export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();

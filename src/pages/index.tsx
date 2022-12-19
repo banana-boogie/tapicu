@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/cookies");
-  }, []);
+    router.push('/cookies');
+  }, [router]);
   return <div>Redirecting...</div>;
 }
