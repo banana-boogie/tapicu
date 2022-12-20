@@ -5,11 +5,12 @@ import Icon from '@components/Icon';
 import UnstyledButton from '@components/UnstyledButton';
 
 type Props = {
-  onClickHandler: () => void;
+  onClickHandler?: () => void;
   hideArrow?: boolean;
   style?: any;
   disabled?: boolean;
   children: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 function Button({
@@ -17,10 +18,16 @@ function Button({
   disabled,
   onClickHandler,
   children,
+  type = 'button',
   ...delegated
 }: Props) {
   return (
-    <Wrapper onClick={onClickHandler} disabled={disabled} {...delegated}>
+    <Wrapper
+      type={type}
+      onClick={onClickHandler}
+      disabled={disabled}
+      {...delegated}
+    >
       {children}
       {!hideArrow && (
         <RightArrowIcon

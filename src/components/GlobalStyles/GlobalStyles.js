@@ -247,6 +247,9 @@ html {
   --color-primary: hsl(${COLORS.primary});
   --color-secondary: hsl(${COLORS.secondary});
   --color-accent: hsl(${COLORS.accent});
+  --color-success: hsl(${COLORS.success});
+  --color-error: hsl(${COLORS.error});
+
   --color-gray-100: hsl(${COLORS.gray[100]});
   --color-gray-300: hsl(${COLORS.gray[300]});
   --color-gray-500: hsl(${COLORS.gray[500]});
