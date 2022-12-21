@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Footer from "@components/Footer";
+import Footer from '@components/Footer';
 
 type Props = {
   children: React.ReactNode;
@@ -23,5 +23,5 @@ const Wrapper = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
 `;

@@ -28,6 +28,7 @@ function CookiePageHeader({
               strokeWidth={2}
               size={24}
               color={'var(--color-accent)'}
+              fill="none"
             />
           </BackButton>
         </BackButtonWrapper>

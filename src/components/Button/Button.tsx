@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Icon from "@components/Icon";
-import UnstyledButton from "@components/UnstyledButton";
+import Icon from '@components/Icon';
+import UnstyledButton from '@components/UnstyledButton';
 
 type Props = {
   onClickHandler?: () => void;
@@ -10,7 +10,7 @@ type Props = {
   style?: any;
   disabled?: boolean;
   children: React.ReactNode;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
 };
 
 function Button({
@@ -18,7 +18,7 @@ function Button({
   disabled,
   onClickHandler,
   children,
-  type = "button",
+  type = 'button',
   ...delegated
 }: Props) {
   return (
@@ -34,7 +34,8 @@ function Button({
           id="arrow-right"
           strokeWidth={2}
           size={24}
-          color={"var(--color-white)"}
+          color={'var(--color-white)'}
+          fill="none"
         />
       )}
     </Wrapper>
@@ -47,7 +48,7 @@ const Wrapper = styled(UnstyledButton)`
   justify-content: center;
   color: var(--color-white);
   background: ${({ disabled }) =>
-    disabled ? "var(--color-gray-300)" : "var(--color-primary)"};
+    disabled ? 'var(--color-gray-300)' : 'var(--color-primary)'};
   margin-top: var(--space-md);
   padding: var(--space-md);
   border-radius: var(--border-radius-xs);
