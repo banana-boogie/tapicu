@@ -31,14 +31,17 @@
       ],
       "@hooks/*": [
         "src/hooks/*"
-      ]
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js", 
+    "**/*.js",
     "**/*.jsx"
   ],
   "exclude": [

@@ -1,14 +1,14 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import styled from "styled-components";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
 
-import Button from "@components/Button";
-import CookiePageHeader from "@/components/Cookies/CookiePageHeader";
-import CookieCounter from "@/components/Cookies/CookieCounter";
-import Checkout from "@components/Checkout";
+import Button from '@components/Button';
+import CookiePageHeader from '@/components/Cookies/CookiePageHeader';
+import CookieCounter from '@/components/Cookies/CookieCounter';
+import Checkout from '@components/Checkout';
 
-import { COOKIE_PRICE } from "@constants/constants";
+import { COOKIE_PRICE } from '@constants/constants';
 
 export default function Cookie() {
   const [showCheckout, setShowCheckout] = useState(false);
@@ -53,7 +53,6 @@ export default function Cookie() {
         <Checkout
           cookieCount={cookieCount}
           cookieCountOnChange={handleCookieCountChange}
-          total={getTotal()}
         />
       ) : (
         <>

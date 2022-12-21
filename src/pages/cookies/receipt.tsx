@@ -1,30 +1,31 @@
-import { GetServerSideProps } from "next";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { GetServerSideProps } from 'next';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
 
-import AlertMessage from "@/components/AlertMessage";
-import CookiePageHeader from "@/components/Cookies/CookiePageHeader";
-import VisuallyHidden from "@/components/VisuallyHidden";
-import Icon from "@/components/Icon";
-import Button from "@/components/Button";
-import { COOKIE_PRICE } from "@/constants/constants";
+import AlertMessage from '@/components/AlertMessage';
+import CookiePageHeader from '@/components/Cookies/CookiePageHeader';
+import VisuallyHidden from '@/components/VisuallyHidden';
+import Icon from '@/components/Icon';
+import Button from '@/components/Button';
+import { COOKIE_PRICE } from '@/constants/constants';
+import { roundToNearest } from '@/utils';
 
 type MessageType = {
-  status: "success" | "error" | "";
+  status: 'success' | 'error' | '';
   text: string;
 };
 
 type Props = {
   paymentIntentId?: string;
   orderNumber?: string;
-  total?: number;
-  numberOfItems?: number;
+  total?: number | string;
+  numberOfItems?: number | string;
 };
 
 export async function getServerSideProps(context: any) {
-  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
   const { query } = context;
   const { payment_intent: paymentIntentId } = query;
@@ -38,8 +39,10 @@ export async function getServerSideProps(context: any) {
       const { id, amount, created } = paymentIntent;
       data.paymentIntentId = id;
       data.orderNumber = created;
-      data.total = amount / 100;
-      data.numberOfItems = data.total / COOKIE_PRICE;
+      // reference: https://stripe.com/docs/currencies#zero-decimal
+      const currencySmallestUnit = 100;
+      data.total = roundToNearest(amount / currencySmallestUnit, 2);
+      data.numberOfItems = (Number(data.total) / COOKIE_PRICE).toFixed(0);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +55,7 @@ export async function getServerSideProps(context: any) {
 
 function Receipt(data: Props) {
   const router = useRouter();
-  const [message, setMessage] = useState<MessageType>({ status: "", text: "" });
+  const [message, setMessage] = useState<MessageType>({ status: '', text: '' });
   const [isSendReciptButtonDisabled, setIsSendReciptButtonDisabled] =
     useState(true);
   const {
@@ -61,11 +64,9 @@ function Receipt(data: Props) {
     formState: { isValid },
   } = useForm();
 
-  // TODO: include tax in stripe payment
-
   const {
     paymentIntentId,
-    orderNumber = "x",
+    orderNumber = 'x',
     total = 0,
     numberOfItems = 0,
   } = data || {};
@@ -75,39 +76,39 @@ function Receipt(data: Props) {
   }, [isValid]);
 
   function handleBack() {
-    router.push("/cookies");
+    router.push('/cookies');
   }
 
-  function handleSendReceipt({ email = "" }) {
+  function handleSendReceipt({ email = '' }) {
     setIsSendReciptButtonDisabled(true);
 
     if (!paymentIntentId) {
       setIsSendReciptButtonDisabled(false);
       return setMessage({
-        status: "error",
-        text: "Could not send receipt.",
+        status: 'error',
+        text: 'Could not send receipt.',
       });
     }
 
-    fetch("/api/send-receipt", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    fetch('/api/send-receipt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ paymentIntentId, email }),
     })
       .then((res) => {
         if (res.status === 200) {
-          setMessage({ status: "success", text: "Receipt sent!" });
+          setMessage({ status: 'success', text: 'Receipt sent!' });
         } else {
           setMessage({
-            status: "success",
-            text: "Error: could not send receipt.",
+            status: 'success',
+            text: 'Error: could not send receipt.',
           });
         }
       })
       .catch(() => {
         setMessage({
-          status: "success",
-          text: "Error: could not send receipt.",
+          status: 'success',
+          text: 'Error: could not send receipt.',
         });
       });
   }
@@ -153,16 +154,16 @@ function Receipt(data: Props) {
           <EmailInput
             type="email"
             placeholder="abi@tapicu.com"
-            {...register("email", { required: true })}
+            {...register('email', { required: true })}
           />
         </EmailInputWrapper>
         <SendReceiptButton
           type="submit"
           hideArrow={true}
           style={{
-            "--background-color": isSendReciptButtonDisabled
-              ? "var(--color-gray-300)"
-              : "var(--color-primary)",
+            '--background-color': isSendReciptButtonDisabled
+              ? 'var(--color-gray-300)'
+              : 'var(--color-primary)',
           }}
           disabled={isSendReciptButtonDisabled}
         >
@@ -181,10 +182,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 var(--space-sm);
+  flex: 1;
 `;
 
 const ConfirmationBackground = styled.div`
-  background: url("/confirmation_background.svg") no-repeat;
+  background: url('/confirmation_background.svg') no-repeat;
   height: 100%;
   width: 100%;
   max-height: 255px;
@@ -192,6 +194,7 @@ const ConfirmationBackground = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  flex: 1;
 `;
 
 const ThankYouText = styled.h1`
