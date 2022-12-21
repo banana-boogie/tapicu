@@ -1,14 +1,15 @@
-import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { forwardRef } from "react";
+import PropTypes from "prop-types";
 
 const Email = forwardRef(
-  ({ color = 'currentColor', size = 24, ...rest }, ref) => {
+  ({ color = "currentColor", size = 24, ...rest }, ref) => {
     return (
       <svg
         ref={ref}
         width={size}
         height={size}
         stroke={color}
+        fill="black"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         {...rest}
@@ -24,6 +25,6 @@ Email.propTypes = {
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-Email.displayName = 'Email';
+Email.displayName = "Email";
 
 export default Email;

@@ -15,7 +15,7 @@ const calculateOrderAmount = (cookies: number) => {
   // people from directly manipulating the amount on the client
   // reference: https://stripe.com/docs/currencies#zero-decimal
   const currencySmallestUnit = 100;
-  return cookies * COOKIE_PRICE * currencySmallestUnit;
+  return Math.round(cookies * COOKIE_PRICE * currencySmallestUnit);
 };
 
 export default async function handler(

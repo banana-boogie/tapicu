@@ -1,8 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components";
+import React from "react";
 import {
+  AlertCircle,
+  AlertOctagon,
+  AlertTriangle,
   ArrowLeft,
   ArrowRight,
+  CheckCircle,
   Copy,
   ChevronDown,
   Email,
@@ -15,13 +19,18 @@ import {
   ShoppingBag,
   Youtube,
   X,
-} from './IconPack';
+  xOctagon,
+} from "./IconPack";
 
 const icons = {
+  "alert-circle": AlertCircle,
+  "alert-octagon": AlertOctagon,
+  "alert-triangle": AlertTriangle,
+  "check-circle": CheckCircle,
   search: Search,
   menu: Menu,
-  'shopping-bag': ShoppingBag,
-  'chevron-down': ChevronDown,
+  "shopping-bag": ShoppingBag,
+  "chevron-down": ChevronDown,
   email: Email,
   close: X,
   facebook: Facebook,
@@ -31,10 +40,18 @@ const icons = {
   copy: Copy,
   link: Link,
   back: ArrowLeft,
-  'arrow-right': ArrowRight,
+  "arrow-right": ArrowRight,
+  "x-octagon": xOctagon,
 };
 
-const Icon = ({ id, color = 'black', size, strokeWidth, ...delegated }) => {
+const Icon = ({
+  id,
+  color = "black",
+  size,
+  fill,
+  strokeWidth,
+  ...delegated
+}) => {
   const Component = icons[id];
 
   if (!Component) {
@@ -43,7 +60,7 @@ const Icon = ({ id, color = 'black', size, strokeWidth, ...delegated }) => {
 
   return (
     <Wrapper strokeWidth={strokeWidth} {...delegated}>
-      <Component color={color} size={size} />
+      <Component color={color} size={size} fill={fill} />
     </Wrapper>
   );
 };
@@ -52,7 +69,7 @@ const Wrapper = styled.div`
   & > svg {
     display: block;
     stroke-width: ${(p) =>
-      p.strokeWidth !== undefined ? p.strokeWidth + 'px' : undefined};
+      p.strokeWidth !== undefined ? p.strokeWidth + "px" : undefined};
   }
 `;
 

@@ -9,7 +9,7 @@ export default function Footer() {
         Abi&apos;s Cookies
       </Link>
       <span>
-        <Logo src="/logo.png" alt="logo" width={24} height={24} />
+        <Image src="/logo.png" alt="logo" width={24} height={24} />
       </span>
     </Wrapper>
   );
@@ -26,8 +26,4 @@ const Wrapper = styled.footer`
 const Link = styled.a`
   text-decoration: none;
   align-self: center;
-`;
-
-const Logo = styled(Image)`
-  border-radius: 999px;
 `;

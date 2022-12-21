@@ -1,12 +1,12 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React from "react";
+import { useEffect, useState } from "react";
 import {
   PaymentElement,
   useStripe,
   useElements,
-} from '@stripe/react-stripe-js';
-import styled from 'styled-components';
-import Button from '@components/Button';
+} from "@stripe/react-stripe-js";
+import styled from "styled-components";
+import Button from "@components/Button";
 
 const STRIPE_RETURN_URL = process.env.NEXT_PUBLIC_STRIPE_RETURN_URL;
 
@@ -16,7 +16,7 @@ export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -27,6 +27,7 @@ export default function PaymentForm() {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
+    console.log("are you here?");
 
     setIsLoading(true);
     const returnUrl =
@@ -44,11 +45,11 @@ export default function PaymentForm() {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === 'card_error' || error.type === 'validation_error') {
-      const errorMessage = error.message || 'An unexpected error occurred.';
+    if (error.type === "card_error" || error.type === "validation_error") {
+      const errorMessage = error.message || "An unexpected error occurred.";
       setMessage(errorMessage);
     } else {
-      setMessage('An unexpected error occurred.');
+      setMessage("An unexpected error occurred.");
     }
 
     setIsLoading(false);
@@ -60,7 +61,7 @@ export default function PaymentForm() {
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
+      "payment_intent_client_secret"
     );
 
     if (!clientSecret) {
@@ -70,17 +71,17 @@ export default function PaymentForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       const status = paymentIntent?.status || {};
       switch (status) {
-        case 'succeeded':
-          setMessage('Payment succeeded!');
+        case "succeeded":
+          setMessage("Payment succeeded!");
           break;
-        case 'processing':
-          setMessage('Your payment is processing.');
+        case "processing":
+          setMessage("Your payment is processing.");
           break;
-        case 'requires_payment_method':
-          setMessage('Your payment was not successful, please try again.');
+        case "requires_payment_method":
+          setMessage("Your payment was not successful, please try again.");
           break;
         default:
-          setMessage('Something went wrong.');
+          setMessage("Something went wrong.");
           break;
       }
     });
@@ -94,16 +95,13 @@ export default function PaymentForm() {
       }
       <Form onSubmit={handleSubmit}>
         {/* @ts-ignore */}
-        <PaymentElement options={{ layout: 'accordion' }} />
-        <PayButton
-          onClickHandler={() => {}}
-          disabled={isLoading || !stripe || !elements}
-        >
+        <PaymentElement options={{ layout: "accordion" }} />
+        <PayButton type="submit" disabled={isLoading || !stripe || !elements}>
           <PayButtonText>
             {isLoading ? (
               <Spinner className="spinner" id="spinner"></Spinner>
             ) : (
-              'Submit Order'
+              "Submit Order"
             )}
           </PayButtonText>
         </PayButton>

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 import {
   COLORS,
   WEIGHTS,
@@ -6,7 +6,7 @@ import {
   FONT_SIZES,
   SPACING,
   BORDER_RADIUS,
-} from '@constants/css';
+} from "@constants/css";
 
 const GlobalStyles = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -247,8 +247,10 @@ html {
   --color-primary: hsl(${COLORS.primary});
   --color-secondary: hsl(${COLORS.secondary});
   --color-accent: hsl(${COLORS.accent});
-  --color-success: hsl(${COLORS.success});
-  --color-error: hsl(${COLORS.error});
+  --color-background-success: hsl(${COLORS.background.success});
+  --color-background-error: hsl(${COLORS.background.error});
+  --color-background-info: hsl(${COLORS.background.info});
+  --color-background-warning: hsl(${COLORS.background.warning});
 
   --color-gray-100: hsl(${COLORS.gray[100]});
   --color-gray-300: hsl(${COLORS.gray[300]});

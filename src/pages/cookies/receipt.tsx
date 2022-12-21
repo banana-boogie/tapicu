@@ -1,24 +1,58 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/router';
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from "next";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
 
-import CookiePageHeader from '@/components/Cookies/CookiePageHeader';
-import VisuallyHidden from '@/components/VisuallyHidden';
-import Icon from '@/components/Icon';
-import Button from '@/components/Button';
+import AlertMessage from "@/components/AlertMessage";
+import CookiePageHeader from "@/components/Cookies/CookiePageHeader";
+import VisuallyHidden from "@/components/VisuallyHidden";
+import Icon from "@/components/Icon";
+import Button from "@/components/Button";
+import { COOKIE_PRICE } from "@/constants/constants";
 
-type Props = {
-  orderNumber: string;
-};
 type MessageType = {
-  status: 'success' | 'error';
+  status: "success" | "error" | "";
   text: string;
 };
 
-function Receipt({ orderNumber = '000012' }: Props) {
+type Props = {
+  paymentIntentId?: string;
+  orderNumber?: string;
+  total?: number;
+  numberOfItems?: number;
+};
+
+export async function getServerSideProps(context: any) {
+  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+  const { query } = context;
+  const { payment_intent: paymentIntentId } = query;
+  const data: Props = {};
+  if (paymentIntentId) {
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId
+      );
+
+      const { id, amount, created } = paymentIntent;
+      data.paymentIntentId = id;
+      data.orderNumber = created;
+      data.total = amount / 100;
+      data.numberOfItems = data.total / COOKIE_PRICE;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return {
+    props: data,
+  };
+}
+
+function Receipt(data: Props) {
   const router = useRouter();
-  const [message, setMessage] = useState({ status: '', text: '' });
+  const [message, setMessage] = useState<MessageType>({ status: "", text: "" });
   const [isSendReciptButtonDisabled, setIsSendReciptButtonDisabled] =
     useState(true);
   const {
@@ -27,75 +61,56 @@ function Receipt({ orderNumber = '000012' }: Props) {
     formState: { isValid },
   } = useForm();
 
-  // TODO: make message prettier: make alert component
-  // TODO: figure out how to get total, amount of cookies, and order number
   // TODO: include tax in stripe payment
-  const total = (15.0).toFixed(2);
-  const amount = 3;
+
+  const {
+    paymentIntentId,
+    orderNumber = "x",
+    total = 0,
+    numberOfItems = 0,
+  } = data || {};
 
   useEffect(() => {
     setIsSendReciptButtonDisabled(!isValid);
   }, [isValid]);
 
   function handleBack() {
-    router.push('/cookies');
+    router.push("/cookies");
   }
 
-  function handleSendReceipt({ email = '' }) {
+  function handleSendReceipt({ email = "" }) {
     setIsSendReciptButtonDisabled(true);
-    const paymentIntentId = new URLSearchParams(window.location.search).get(
-      'payment_intent'
-    );
 
     if (!paymentIntentId) {
       setIsSendReciptButtonDisabled(false);
       return setMessage({
-        status: 'error',
-        text: 'no payment intent id found.',
+        status: "error",
+        text: "Could not send receipt.",
       });
     }
 
-    fetch('/api/send-receipt', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("/api/send-receipt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ paymentIntentId, email }),
     })
       .then((res) => {
         if (res.status === 200) {
-          setMessage({ status: 'success', text: 'Receipt sent!' });
+          setMessage({ status: "success", text: "Receipt sent!" });
         } else {
           setMessage({
-            status: 'success',
-            text: 'Error: could not send receipt.',
+            status: "success",
+            text: "Error: could not send receipt.",
           });
         }
       })
       .catch(() => {
         setMessage({
-          status: 'success',
-          text: 'Error: could not send receipt.',
+          status: "success",
+          text: "Error: could not send receipt.",
         });
       });
   }
-
-  const MessageWrapper = ({ children }: { children: ReactNode }) => {
-    const variants = {
-      success: {
-        color: 'var(--color-success)',
-      },
-      error: {
-        color: 'var(--color-error)',
-      },
-    };
-    // @ts-ignore
-    const variant = variants[message.status];
-    if (!variant) {
-      throw new Error('Invalid variant: not found');
-    }
-
-    // @ts-ignore
-    return <Message style={{ '--color': variant.color }}>{children}</Message>;
-  };
 
   return (
     <Wrapper>
@@ -114,7 +129,7 @@ function Receipt({ orderNumber = '000012' }: Props) {
             <span>Total amount</span>
           </div>
           <div>
-            <span>x {amount}</span>
+            <span>x {numberOfItems}</span>
             <span>Items ordered</span>
           </div>
           <div>
@@ -124,8 +139,11 @@ function Receipt({ orderNumber = '000012' }: Props) {
         </OrderLine>
       </ConfirmationBackground>
 
-      {message.status && <MessageWrapper>{message.text}</MessageWrapper>}
-      <EmailWrapper onSubmit={handleSubmit(handleSendReceipt)}>
+      {message.status && (
+        <AlertMessage type={message.status}>{message.text}</AlertMessage>
+      )}
+
+      <Form onSubmit={handleSubmit(handleSendReceipt)}>
         <EmailLabel htmlFor="email">
           <VisuallyHidden>Email my recipt</VisuallyHidden>
           Email my receipt
@@ -135,22 +153,22 @@ function Receipt({ orderNumber = '000012' }: Props) {
           <EmailInput
             type="email"
             placeholder="abi@tapicu.com"
-            {...register('email', { required: true })}
+            {...register("email", { required: true })}
           />
         </EmailInputWrapper>
         <SendReceiptButton
           type="submit"
           hideArrow={true}
           style={{
-            '--background-color': isSendReciptButtonDisabled
-              ? 'var(--color-gray-300)'
-              : 'var(--color-primary)',
+            "--background-color": isSendReciptButtonDisabled
+              ? "var(--color-gray-300)"
+              : "var(--color-primary)",
           }}
           disabled={isSendReciptButtonDisabled}
         >
           Send Receipt
         </SendReceiptButton>
-      </EmailWrapper>
+      </Form>
       <BackHomeButton hideArrow={true} onClickHandler={handleBack}>
         Back to Home
       </BackHomeButton>
@@ -166,7 +184,7 @@ const Wrapper = styled.div`
 `;
 
 const ConfirmationBackground = styled.div`
-  background: url('/confirmation_background.svg') no-repeat;
+  background: url("/confirmation_background.svg") no-repeat;
   height: 100%;
   width: 100%;
   max-height: 255px;
@@ -209,19 +227,7 @@ const OrderLine = styled.div`
   }
 `;
 
-// TODO: make alert message component: follow desing in the mockup on figma
-const Message = styled.p`
-  text-align: center;
-  background: var(--color-success);
-  color: var(--color-gray-600);
-  border-radius: var(--border-radius-xs);
-  padding: var(--space-xxs) 0;
-  margin: 0;
-  font-size: var(--font-size-sm);
-  width: 100%;
-`;
-
-const EmailWrapper = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 var(--space-lg);
