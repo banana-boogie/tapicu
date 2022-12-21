@@ -1,39 +1,39 @@
 import assert from 'node:assert';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { calculateOrderAmount } from '@/utils';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import { calculateOrderAmount } from '@/utils';
 
 type Data = {
   message?: string;
-  clientSecret?: string;
   paymentIntentId?: string;
+  amount?: string;
 };
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { cookies } = req.body;
+  const { cookies, paymentIntentId } = req.body;
   assert(typeof cookies === 'number', 'Invalid type for cookies');
+  assert(
+    typeof paymentIntentId === 'string',
+    'Invalid type for paymentIntentId'
+  );
 
   try {
     // Create a PaymentIntent with the order amount and currency
-    const paymentIntent = await stripe.paymentIntents.create({
+    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
       amount: calculateOrderAmount(cookies),
-      currency: 'cad',
-      automatic_payment_methods: {
-        enabled: true,
-      },
     });
     res.send({
-      clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
+      amount: paymentIntent.amount,
     });
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .send({ message: 'Error in the create-payment-intent function' });
+      .send({ message: 'Error in the update-payment-intent function' });
   }
 }

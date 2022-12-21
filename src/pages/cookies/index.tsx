@@ -40,7 +40,7 @@ export default function Cookie() {
     } else if (cookieCount >= 100) {
       setCookieCount(99);
     }
-  }, [cookieCount, setCookieCount]);
+  }, [cookieCount]);
 
   return (
     <Wrapper>

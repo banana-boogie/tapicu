@@ -15,23 +15,34 @@ const stripePromise = loadStripe(stripPublicKey);
 
 export default function PaymentProvider({ cookies, children }: Props) {
   const [clientSecret, setClientSecret] = React.useState('');
-  const [paymentIntentId, setPaymentIntentId] = React.useState(null);
+  const [paymentIntentId, setPaymentIntentId] = React.useState('');
 
-  // TODO: fix payment intent multiple calls.
-  // payment intent should be created once and then updated after then when the cookies amount changes.
   React.useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cookies, paymentIntentId }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-        setPaymentIntentId(data.paymentIntentId);
-      });
-  }, [cookies, paymentIntentId]);
+    if (clientSecret) {
+      fetch('/api/update-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cookies,
+          paymentIntentId,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    } else {
+      fetch('/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cookies }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setClientSecret(data.clientSecret);
+          setPaymentIntentId(data.paymentIntentId);
+        });
+    }
+  }, [cookies]);
 
   const appearance: StripeElementsOptions['appearance'] = {
     theme: 'stripe',

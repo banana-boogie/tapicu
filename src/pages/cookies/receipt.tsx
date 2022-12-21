@@ -110,7 +110,8 @@ function Receipt(data: Props) {
           status: 'success',
           text: 'Error: could not send receipt.',
         });
-      });
+      })
+      .finally(() => setIsSendReciptButtonDisabled(false));
   }
 
   return (
