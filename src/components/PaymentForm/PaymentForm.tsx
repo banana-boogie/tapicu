@@ -84,6 +84,11 @@ export default function PaymentForm() {
     });
   }, [stripe]);
 
+  const paymentElementOptions = {
+    layout: 'accordion',
+    paymentMethodOrder: ['apple_pay', 'applePay', 'googlePay', 'google_pay'],
+  };
+
   return (
     <Wrapper>
       {
