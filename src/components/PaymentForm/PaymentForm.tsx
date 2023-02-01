@@ -97,7 +97,7 @@ export default function PaymentForm() {
       }
       <Form onSubmit={handleSubmit}>
         {/* @ts-ignore */}
-        <PaymentElement options={{ layout: 'accordion' }} />
+        <PaymentElement options={paymentElementOptions} />
         <PayButton type="submit" disabled={isLoading || !stripe || !elements}>
           <PayButtonText>
             {isLoading ? (
