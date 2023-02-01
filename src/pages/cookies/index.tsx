@@ -9,18 +9,22 @@ import CookieCounter from '@/components/Cookies/CookieCounter';
 import Checkout from '@components/Checkout';
 
 import { COOKIE_PRICE } from '@constants/constants';
+import AlertMessage from '@/components/AlertMessage';
 
 export default function Cookie() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [cookieCount, setCookieCount] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
+  const [disableBuyButton, setDisableBuyButton] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function handleCookieCountChange(value: number) {
     setCookieCount(value);
   }
 
-  function getTotal(): number {
-    return Number((cookieCount * COOKIE_PRICE).toFixed(2));
+  function getTotal(): string {
+    return Number(cookieCount * COOKIE_PRICE).toFixed(2);
   }
 
   function handleBuyCookes() {
@@ -35,10 +39,20 @@ export default function Cookie() {
 
   // Make it so that you can't have less than 1 cookie
   useEffect(() => {
-    if (cookieCount < 1) {
-      setCookieCount(1);
+    if (cookieCount <= 0) {
+      setDisableBuyButton(true);
+      setShowError(true);
+      setErrorMessage('really??? you want 0 cookies?');
     } else if (cookieCount >= 100) {
-      setCookieCount(99);
+      setDisableBuyButton(true);
+      setShowError(true);
+      setErrorMessage(
+        "More than 100 cookies, are you serious??? Don't lie to me... email abi@tapicu.ca"
+      );
+    } else {
+      setDisableBuyButton(false);
+      setShowError(false);
+      setErrorMessage('');
     }
   }, [cookieCount]);
 
@@ -72,14 +86,22 @@ export default function Cookie() {
               cookieCount={cookieCount}
               cookieCountOnChange={handleCookieCountChange}
             />
-            <CookiePrice>(${COOKIE_PRICE} per cookie)</CookiePrice>
+            <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
+            {showError && (
+              <ErrorMessage type="error">{errorMessage}</ErrorMessage>
+            )}
             <Divider />
             <TotalWrapper>
               <Total>Total </Total>
               <TotalNumber>${getTotal()}</TotalNumber>
             </TotalWrapper>
           </CookieCounterWrapper>
-          <BuyButton onClickHandler={handleBuyCookes}>Buy Cookies</BuyButton>
+          <BuyButton
+            disabled={disableBuyButton}
+            onClickHandler={handleBuyCookes}
+          >
+            Buy Cookies
+          </BuyButton>
         </>
       )}
     </Wrapper>
@@ -123,6 +145,10 @@ const CookiePrice = styled.p`
   margin: 0;
   transform: translateY(calc(-1 * var(--space-sm)));
   margin-top: calc(-1 * var(--space-lg));
+`;
+
+const ErrorMessage = styled(AlertMessage)`
+  margin: var(--space-lg);
 `;
 
 const Divider = styled.hr`

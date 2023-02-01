@@ -1,48 +1,51 @@
-import React from "react";
-import styled from "styled-components";
-import Icon from "@components/Icon";
+import React from 'react';
+import styled from 'styled-components';
+import Icon from '@components/Icon';
 
 type Props = {
-  type: "success" | "error" | "info" | "warning";
+  type: 'success' | 'error' | 'info' | 'warning';
   children: React.ReactNode;
 };
 
-function AlertMessage({ type, children }: Props) {
+function AlertMessage({ type, children, ...delegated }: Props) {
   const variants = {
     success: {
-      id: "check-circle",
-      backgroundColor: "var(--color-background-success)",
-      fill: "none",
+      id: 'check-circle',
+      backgroundColor: 'var(--color-background-success)',
+      fill: 'none',
       strokeWidth: 0,
     },
     error: {
-      id: "alert-circle",
-      backgroundColor: "var(--color-background-error)",
-      fill: "#EF4D61",
+      id: 'alert-circle',
+      backgroundColor: 'var(--color-background-error)',
+      fill: '#EF4D61',
       strokeWidth: 2,
     },
     info: {
-      id: "alert-circle",
-      backgroundColor: "var(--color-background-info)",
-      fill: "hsl(187deg 100% 46%)",
+      id: 'alert-circle',
+      backgroundColor: 'var(--color-background-info)',
+      fill: 'hsl(187deg 100% 46%)',
       strokeWidth: 2,
     },
     warning: {
-      id: "alert-circle",
-      backgroundColor: "var(--color-background-warning)",
-      fill: "#FFC12E",
+      id: 'alert-circle',
+      backgroundColor: 'var(--color-background-warning)',
+      fill: '#FFC12E',
       strokeWidth: 2,
     },
   };
 
   const variant = variants[type];
   if (!variant) {
-    throw new Error("Invalid variant: not found");
+    throw new Error('Invalid variant: not found');
   }
 
   return (
-    // @ts-ignore
-    <Wrapper style={{ "--background-color": variant.backgroundColor }}>
+    <Wrapper
+      // @ts-ignore
+      style={{ '--background-color': variant.backgroundColor }}
+      {...delegated}
+    >
       <AlertIcon
         id={variant.id}
         fill={variant.fill}

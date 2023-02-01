@@ -42,7 +42,7 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
           />
           <OrderDescriptionWrapper>
             <CookieName>Abi&apos;s Cookies</CookieName>
-            <CookiePrice>${COOKIE_PRICE}</CookiePrice>
+            <CookiePrice>${COOKIE_PRICE.toFixed(2)}</CookiePrice>
           </OrderDescriptionWrapper>
           <CookieCounter
             variantType={'small'}

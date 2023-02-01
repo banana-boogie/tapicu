@@ -11,6 +11,7 @@ import Icon from '@/components/Icon';
 import Button from '@/components/Button';
 import { COOKIE_PRICE } from '@/constants/constants';
 import { roundToNearest } from '@/utils';
+import { QUERIES } from '@/constants/css';
 
 type MessageType = {
   status: 'success' | 'error' | '';
@@ -154,7 +155,7 @@ function Receipt(data: Props) {
           <EmailIcon id="email" strokeWidth={1} size={24} color="black" />
           <EmailInput
             type="email"
-            placeholder="abi@tapicu.com"
+            placeholder="abi@tapicu.ca"
             {...register('email', { required: true })}
           />
         </EmailInputWrapper>
@@ -196,6 +197,10 @@ const ConfirmationBackground = styled.div`
   flex-direction: column;
   justify-content: space-around;
   flex: 1;
+
+  @media (${QUERIES.tabletAndBigger}) {
+    max-height: 480px;
+  }
 `;
 
 const ThankYouText = styled.h1`
@@ -252,6 +257,10 @@ const EmailInput = styled.input`
   border: none;
   text-align: center;
   padding: var(--space-sm) 0;
+
+  &::placeholder {
+    opacity: 0.2;
+  }
 `;
 
 const EmailIcon = styled(Icon)`
