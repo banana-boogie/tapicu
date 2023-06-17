@@ -86,10 +86,10 @@ export default function Cookie() {
               cookieCount={cookieCount}
               cookieCountOnChange={handleCookieCountChange}
             />
-            <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
+            {/* <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
             {showError && (
               <ErrorMessage type="error">{errorMessage}</ErrorMessage>
-            )}
+            )} */}
             <Divider />
             <TotalWrapper>
               <Total>Total </Total>

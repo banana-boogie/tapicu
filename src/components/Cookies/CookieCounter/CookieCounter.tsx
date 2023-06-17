@@ -86,6 +86,7 @@ const CookieCounter = ({
         }}
         value={cookieCount}
         onChange={inputHandler}
+        disabled={true}
         inputMode="numeric"
         onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
       />
