@@ -20,13 +20,21 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
   }
 
   function getTaxTotal(): string {
-    const subTotal = Number(getSubTotal());
-    return roundToNearest(subTotal * TAX_RATE, 2);
+    // const subTotal = Number(getSubTotal());
+    // return roundToNearest(subTotal * TAX_RATE, 2);
+    return '0';
   }
 
   function getTotal(): string {
     const subTotal = Number(getSubTotal());
     const taxTotal = Number(getTaxTotal());
+    if (cookieCount == 1) {
+      return roundToNearest(3.75 + taxTotal, 2);
+    } else if (cookieCount == 2) {
+      return roundToNearest(7 + taxTotal, 2);
+    } else if (cookieCount == 3) {
+      return roundToNearest(10 + taxTotal, 2);
+    }
     return roundToNearest(subTotal + taxTotal, 2);
   }
 
@@ -34,30 +42,37 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
     <PaymentProvider cookies={cookieCount}>
       <CheckoutWrapper>
         <CheckoutOrder>
-          <CookiesImage
+          {/* <CookiesImage
             src={"/abi's_cookies_cookie_jar.svg"}
+            alt="Cookies"
+            width={55}
+            height={55}
+          /> */}
+          <CookiesImage
+            src={'/tapicu_logo.svg'}
             alt="Cookies"
             width={55}
             height={55}
           />
           <OrderDescriptionWrapper>
-            <CookieName>Abi&apos;s Cookies</CookieName>
-            <CookiePrice>${COOKIE_PRICE.toFixed(2)}</CookiePrice>
+            <CookieName>Tapicú</CookieName>
+            {/* <CookiePrice>Cookies</CookiePrice> */}
           </OrderDescriptionWrapper>
           <CookieCounter
+            disable={true}
             variantType={'small'}
             cookieCount={cookieCount}
             cookieCountOnChange={cookieCountOnChange}
           />
         </CheckoutOrder>
-        <SubTotalWrapper>
+        {/* <SubTotalWrapper>
           <SubTotal>Subtotal</SubTotal>
           <SubTotalNumber>${getSubTotal()}</SubTotalNumber>
         </SubTotalWrapper>
         <TaxWrapper>
           <Tax>Tax</Tax>
           <TaxTotal>${getTaxTotal()}</TaxTotal>
-        </TaxWrapper>
+        </TaxWrapper> */}
         <Divider />
         <TotalWrapper>
           <Total>Total </Total>

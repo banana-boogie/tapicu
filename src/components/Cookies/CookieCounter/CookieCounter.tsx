@@ -8,6 +8,7 @@ type Props = {
   cookieCount: number;
   cookieCountOnChange: (value: number) => void;
   variantType: string;
+  disable?: boolean;
   delegated?: any;
 };
 
@@ -20,17 +21,20 @@ type Variants = {
     counterGap: string;
     plusButtonSource: string;
     minusButtonSource: string;
+    display: string;
   };
 };
 
 const CookieCounter = ({
   cookieCount,
   cookieCountOnChange,
+  disable = false,
   variantType = 'large',
   ...delegated
 }: Props) => {
   const variants: Variants = {
     large: {
+      display: 'block',
       counterSize: 48,
       countSize: '124px',
       countWeight: 'var(--font-weight-regular)',
@@ -40,6 +44,7 @@ const CookieCounter = ({
       minusButtonSource: '/minus_blue.svg',
     },
     small: {
+      display: 'none',
       counterSize: 24,
       countSize: '24px',
       countWeight: 'var(--font-weight-medium)',
@@ -66,6 +71,9 @@ const CookieCounter = ({
       {...delegated}
     >
       <CounterButton
+        style={{
+          display: variant.display,
+        }}
         onClick={() =>
           cookieCount > 1 && cookieCountOnChange(Number(cookieCount) - 1)
         }
@@ -90,6 +98,9 @@ const CookieCounter = ({
         onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
       />
       <CounterButton
+        style={{
+          display: variant.display,
+        }}
         onClick={() =>
           cookieCount < 99 && cookieCountOnChange(Number(cookieCount) + 1)
         }

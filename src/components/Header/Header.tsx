@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Header = () => {
   return (
     <Wrapper>
-      <Title>Abi&apos;s Cookies 🍪!</Title>
+      <Title>Tapicú 🍪!</Title>
     </Wrapper>
   );
 };

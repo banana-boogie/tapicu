@@ -24,6 +24,14 @@ export default function Cookie() {
   }
 
   function getTotal(): string {
+    if (cookieCount == 1) {
+      return '3.75';
+    } else if (cookieCount == 2) {
+      return '7.00';
+    } else if (cookieCount == 3) {
+      return '10.00';
+    }
+
     return Number(cookieCount * COOKIE_PRICE).toFixed(2);
   }
 
@@ -70,11 +78,17 @@ export default function Cookie() {
         />
       ) : (
         <>
-          <AbisCookieJarImage
+          {/* <AbisCookieJarImage
             src={"/abi's_cookies_cookie_jar.svg"}
             alt=""
             height={169}
             width={169}
+          /> */}
+          <HeroImage
+            src={'/tapicu_logo.svg'}
+            alt="Cookies"
+            width={169}
+            height={169}
           />
           <CookieCounterWrapper>
             <Question>
@@ -86,10 +100,10 @@ export default function Cookie() {
               cookieCount={cookieCount}
               cookieCountOnChange={handleCookieCountChange}
             />
-            <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
+            {/* <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
             {showError && (
               <ErrorMessage type="error">{errorMessage}</ErrorMessage>
-            )}
+            )} */}
             <Divider />
             <TotalWrapper>
               <Total>Total </Total>
@@ -116,7 +130,7 @@ const Wrapper = styled.main`
   padding: 0 var(--space-md);
 `;
 
-const AbisCookieJarImage = styled(Image)`
+const HeroImage = styled(Image)`
   align-self: center;
 `;
 
