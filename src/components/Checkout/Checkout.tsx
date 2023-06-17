@@ -42,8 +42,8 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
             height={55}
           />
           <OrderDescriptionWrapper>
-            <CookieName>Abi&apos;s Cookies</CookieName>
-            <CookiePrice>${COOKIE_PRICE.toFixed(2)}</CookiePrice>
+            <CookieName>Tapicú</CookieName>
+            {/* <CookiePrice>Cookies</CookiePrice> */}
           </OrderDescriptionWrapper>
           <CookieCounter
             variantType={'small'}

@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Abi&apos;s Cookies</title>
+        <title>Tapicú</title>
         <meta name="description" content="mmmmm cookies yummy in my tummy" />
         <link rel="icon" href="/favicon/favicon.ico" />
       </Head>

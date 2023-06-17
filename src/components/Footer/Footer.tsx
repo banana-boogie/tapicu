@@ -1,12 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import styled from "styled-components";
+import React from 'react';
+import Image from 'next/image';
+import styled from 'styled-components';
 
 export default function Footer() {
   return (
     <Wrapper>
       <Link href="" target="_blank" rel="noopener noreferrer">
-        Abi&apos;s Cookies
+        Tapicú Goodies
       </Link>
       <span>
         <Image src="/logo.png" alt="logo" width={24} height={24} />
