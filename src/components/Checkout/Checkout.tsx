@@ -20,8 +20,9 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
   }
 
   function getTaxTotal(): string {
-    const subTotal = Number(getSubTotal());
-    return roundToNearest(subTotal * TAX_RATE, 2);
+    // const subTotal = Number(getSubTotal());
+    // return roundToNearest(subTotal * TAX_RATE, 2);
+    return '0';
   }
 
   function getTotal(): string {
@@ -50,14 +51,14 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
             cookieCountOnChange={cookieCountOnChange}
           />
         </CheckoutOrder>
-        <SubTotalWrapper>
+        {/* <SubTotalWrapper>
           <SubTotal>Subtotal</SubTotal>
           <SubTotalNumber>${getSubTotal()}</SubTotalNumber>
         </SubTotalWrapper>
         <TaxWrapper>
           <Tax>Tax</Tax>
           <TaxTotal>${getTaxTotal()}</TaxTotal>
-        </TaxWrapper>
+        </TaxWrapper> */}
         <Divider />
         <TotalWrapper>
           <Total>Total </Total>
