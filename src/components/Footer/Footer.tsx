@@ -9,7 +9,7 @@ export default function Footer() {
         Tapicú Goodies
       </Link>
       <span>
-        <Image src="/logo.png" alt="logo" width={24} height={24} />
+        <Image src="/tapicu_logo.png" alt="logo" width={24} height={24} />
       </span>
     </Wrapper>
   );

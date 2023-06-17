@@ -40,8 +40,8 @@ const CookieCounter = ({
       countWeight: 'var(--font-weight-regular)',
       countWidth: '144px',
       counterGap: 'var(--space-xs)',
-      plusButtonSource: '/plus_blue.svg',
-      minusButtonSource: '/minus_blue.svg',
+      plusButtonSource: '/plus_button.svg',
+      minusButtonSource: '/minus_button.svg',
     },
     small: {
       display: 'none',

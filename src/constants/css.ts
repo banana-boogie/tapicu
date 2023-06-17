@@ -37,7 +37,10 @@ export const COLORS = {
     info: '187deg 86% 95%',
     warning: '43deg 100% 96%',
     error: '353deg 80% 96%',
-  }
+  },
+  button: {
+    primary: '28deg 76% 71%',
+  },
 };
 
 export const FONTS = {

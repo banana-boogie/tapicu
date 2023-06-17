@@ -30,10 +30,12 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
     const taxTotal = Number(getTaxTotal());
     if (cookieCount == 1) {
       return roundToNearest(3.75 + taxTotal, 2);
-    } else if (cookieCount == 2) {
+    } else if (cookieCount === 2) {
       return roundToNearest(7 + taxTotal, 2);
-    } else if (cookieCount == 3) {
+    } else if (cookieCount === 3) {
       return roundToNearest(10 + taxTotal, 2);
+    } else if (cookieCount === 4) {
+      return roundToNearest(15 + taxTotal, 2);
     }
     return roundToNearest(subTotal + taxTotal, 2);
   }

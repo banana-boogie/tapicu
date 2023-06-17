@@ -48,7 +48,7 @@ const Wrapper = styled(UnstyledButton)`
   justify-content: center;
   color: var(--color-white);
   background: ${({ disabled }) =>
-    disabled ? 'var(--color-gray-300)' : 'var(--color-primary)'};
+    disabled ? 'var(--color-gray-300)' : 'var(--color-button-primary)'};
   margin-top: var(--space-md);
   padding: var(--space-md);
   border-radius: var(--border-radius-xs);
