@@ -62,7 +62,6 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
           </OrderDescriptionWrapper>
           <CookieCounter
             disable={true}
-            hideButtons={true}
             variantType={'small'}
             cookieCount={cookieCount}
             cookieCountOnChange={cookieCountOnChange}
