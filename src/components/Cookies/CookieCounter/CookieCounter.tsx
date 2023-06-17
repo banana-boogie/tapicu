@@ -8,9 +8,8 @@ type Props = {
   cookieCount: number;
   cookieCountOnChange: (value: number) => void;
   variantType: string;
-  disable: boolean;
+  disable?: boolean;
   delegated?: any;
-  hideButtons: boolean;
 };
 
 type Variants = {
@@ -30,7 +29,6 @@ const CookieCounter = ({
   cookieCount,
   cookieCountOnChange,
   disable = false,
-  hideButtons = false,
   variantType = 'large',
   ...delegated
 }: Props) => {
