@@ -11,12 +11,15 @@ export function calculateOrderAmount(cookies: number) {
   // 1 Cookie = 3.75
   // 2 Cookies = 7
   // 3 Cookies = 10
+  // 4 Cookie = 15 (plus a card)
   if (cookies === 1) {
     return Math.round(3.75 * currencySmallestUnit);
   } else if (cookies === 2) {
     return Math.round(7 * currencySmallestUnit);
   } else if (cookies === 3) {
     return Math.round(10 * currencySmallestUnit);
+  } else if (cookies === 4) {
+    return Math.round(15 * currencySmallestUnit);
   }
 
   return Math.round(

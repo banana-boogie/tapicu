@@ -11,6 +11,8 @@ import Checkout from '@components/Checkout';
 import { COOKIE_PRICE } from '@constants/constants';
 import AlertMessage from '@/components/AlertMessage';
 
+// TODO: Update colors of button, and plus button (black) limit the amount of cookies to 3
+
 export default function Cookie() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [cookieCount, setCookieCount] = useState(1);
@@ -28,8 +30,10 @@ export default function Cookie() {
       return '3.75';
     } else if (cookieCount == 2) {
       return '7.00';
-    } else if (cookieCount == 3) {
+    } else if (cookieCount === 3) {
       return '10.00';
+    } else if (cookieCount === 4) {
+      return '15.00';
     }
 
     return Number(cookieCount * COOKIE_PRICE).toFixed(2);
