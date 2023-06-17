@@ -78,11 +78,17 @@ export default function Cookie() {
         />
       ) : (
         <>
-          <AbisCookieJarImage
+          {/* <AbisCookieJarImage
             src={"/abi's_cookies_cookie_jar.svg"}
             alt=""
             height={169}
             width={169}
+          /> */}
+          <HeroImage
+            src={'/tapicu_logo.svg'}
+            alt="Cookies"
+            width={169}
+            height={169}
           />
           <CookieCounterWrapper>
             <Question>
@@ -124,7 +130,7 @@ const Wrapper = styled.main`
   padding: 0 var(--space-md);
 `;
 
-const AbisCookieJarImage = styled(Image)`
+const HeroImage = styled(Image)`
   align-self: center;
 `;
 

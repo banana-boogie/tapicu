@@ -42,8 +42,14 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
     <PaymentProvider cookies={cookieCount}>
       <CheckoutWrapper>
         <CheckoutOrder>
-          <CookiesImage
+          {/* <CookiesImage
             src={"/abi's_cookies_cookie_jar.svg"}
+            alt="Cookies"
+            width={55}
+            height={55}
+          /> */}
+          <CookiesImage
+            src={'/tapicu_logo.svg'}
             alt="Cookies"
             width={55}
             height={55}
@@ -53,6 +59,8 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
             {/* <CookiePrice>Cookies</CookiePrice> */}
           </OrderDescriptionWrapper>
           <CookieCounter
+            disable={true}
+            hideButtons={true}
             variantType={'small'}
             cookieCount={cookieCount}
             cookieCountOnChange={cookieCountOnChange}
