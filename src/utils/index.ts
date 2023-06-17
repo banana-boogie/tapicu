@@ -6,6 +6,19 @@ export function calculateOrderAmount(cookies: number) {
   // people from directly manipulating the amount on the client
   // reference: https://stripe.com/docs/currencies#zero-decimal
   const currencySmallestUnit = 100;
+
+  // NOTE: Black Cultural Event Prices
+  // 1 Cookie = 3.75
+  // 2 Cookies = 7
+  // 3 Cookies = 10
+  if (cookies === 1) {
+    return Math.round(3.75 * currencySmallestUnit);
+  } else if (cookies === 2) {
+    return Math.round(7 * currencySmallestUnit);
+  } else if (cookies === 3) {
+    return Math.round(10 * currencySmallestUnit);
+  }
+
   return Math.round(
     cookies * COOKIE_PRICE * (1 + TAX_RATE) * currencySmallestUnit
   );
