@@ -24,6 +24,14 @@ export default function Cookie() {
   }
 
   function getTotal(): string {
+    if (cookieCount == 1) {
+      return '3.75';
+    } else if (cookieCount == 2) {
+      return '7.00';
+    } else if (cookieCount == 3) {
+      return '10.00';
+    }
+
     return Number(cookieCount * COOKIE_PRICE).toFixed(2);
   }
 
