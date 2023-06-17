@@ -8,12 +8,12 @@ export function calculateOrderAmount(cookies: number) {
   const currencySmallestUnit = 100;
 
   // NOTE: Black Cultural Event Prices
-  // 1 Cookie = 3.75
+  // 1 Cookie = 4
   // 2 Cookies = 7
   // 3 Cookies = 10
   // 4 Cookie = 15 (plus a card)
   if (cookies === 1) {
-    return Math.round(3.75 * currencySmallestUnit);
+    return Math.round(4 * currencySmallestUnit);
   } else if (cookies === 2) {
     return Math.round(7 * currencySmallestUnit);
   } else if (cookies === 3) {
