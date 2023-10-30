@@ -8,10 +8,8 @@ import CookiePageHeader from '@/components/Cookies/CookiePageHeader';
 import CookieCounter from '@/components/Cookies/CookieCounter';
 import Checkout from '@components/Checkout';
 
-import { COOKIE_PRICE } from '@constants/constants';
 import AlertMessage from '@/components/AlertMessage';
-
-// TODO: Update colors of button, and plus button (black) limit the amount of cookies to 3
+import { getTotal } from '@/utils';
 
 export default function Cookie() {
   const [showCheckout, setShowCheckout] = useState(false);
@@ -23,20 +21,6 @@ export default function Cookie() {
 
   function handleCookieCountChange(value: number) {
     setCookieCount(value);
-  }
-
-  function getTotal(): string {
-    if (cookieCount == 1) {
-      return '4';
-    } else if (cookieCount == 2) {
-      return '7.00';
-    } else if (cookieCount === 3) {
-      return '10.00';
-    } else if (cookieCount === 4) {
-      return '15.00';
-    }
-
-    return Number(cookieCount * COOKIE_PRICE).toFixed(2);
   }
 
   function handleBuyCookes() {
@@ -111,7 +95,7 @@ export default function Cookie() {
             <Divider />
             <TotalWrapper>
               <Total>Total </Total>
-              <TotalNumber>${getTotal()}</TotalNumber>
+              <TotalNumber>${getTotal(cookieCount)}</TotalNumber>
             </TotalWrapper>
           </CookieCounterWrapper>
           <BuyButton

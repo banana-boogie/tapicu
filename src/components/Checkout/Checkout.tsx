@@ -2,8 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { COOKIE_PRICE, TAX_RATE } from '@constants/constants';
-import { roundToNearest } from '@/utils';
+import { getTotal } from '@/utils';
 
 import CookieCounterComponent from '@/components/Cookies/CookieCounter';
 import PaymentForm from '@components/PaymentForm';
@@ -15,41 +14,10 @@ type Props = {
 };
 
 const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
-  function getSubTotal(): string {
-    return roundToNearest(cookieCount * COOKIE_PRICE, 2);
-  }
-
-  function getTaxTotal(): string {
-    // const subTotal = Number(getSubTotal());
-    // return roundToNearest(subTotal * TAX_RATE, 2);
-    return '0';
-  }
-
-  function getTotal(): string {
-    const subTotal = Number(getSubTotal());
-    const taxTotal = Number(getTaxTotal());
-    if (cookieCount == 1) {
-      return roundToNearest(4 + taxTotal, 2);
-    } else if (cookieCount === 2) {
-      return roundToNearest(7 + taxTotal, 2);
-    } else if (cookieCount === 3) {
-      return roundToNearest(10 + taxTotal, 2);
-    } else if (cookieCount === 4) {
-      return roundToNearest(15 + taxTotal, 2);
-    }
-    return roundToNearest(subTotal + taxTotal, 2);
-  }
-
   return (
     <PaymentProvider cookies={cookieCount}>
       <CheckoutWrapper>
         <CheckoutOrder>
-          {/* <CookiesImage
-            src={"/abi's_cookies_cookie_jar.svg"}
-            alt="Cookies"
-            width={55}
-            height={55}
-          /> */}
           <CookiesImage
             src={'/tapicu_logo.svg'}
             alt="Cookies"
@@ -78,7 +46,7 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
         <Divider />
         <TotalWrapper>
           <Total>Total </Total>
-          <TotalNumber>${getTotal()}</TotalNumber>
+          <TotalNumber>${getTotal(cookieCount)}</TotalNumber>
         </TotalWrapper>
         <PaymentForm />
       </CheckoutWrapper>
