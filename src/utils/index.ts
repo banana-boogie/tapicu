@@ -1,8 +1,8 @@
-import { TAX_RATE } from '@/constants/constants';
-const COOKIE_PRICE = Number(process.env.NEXT_PUBLIC_COOKIE_PRICE);
+import { getCookiePrice, TAX_RATE } from '@/constants/constants';
 
 function getSubTotal(cookieCount: number): string {
-  return roundToNearest(cookieCount * COOKIE_PRICE, 2);
+  const cookiePrice = getCookiePrice(cookieCount);
+  return roundToNearest(cookiePrice, 2);
 }
 
 function getTaxTotal(cookieCount: number): string {
@@ -13,14 +13,6 @@ function getTaxTotal(cookieCount: number): string {
 export function getTotal(cookieCount: number): string {
   const subTotal = Number(getSubTotal(cookieCount));
   const taxTotal = Number(getTaxTotal(cookieCount));
-
-  if (cookieCount == 1) {
-    return roundToNearest(4 + taxTotal, 2);
-  } else if (cookieCount === 2) {
-    return roundToNearest(7 + taxTotal, 2);
-  } else if (cookieCount === 3) {
-    return roundToNearest(10 + taxTotal, 2);
-  }
 
   return roundToNearest(subTotal + taxTotal, 2);
 }

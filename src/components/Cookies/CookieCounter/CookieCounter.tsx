@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import UnstyledButton from '@components/UnstyledButton';
+import { MIN_COOKIES, MAX_COOKIES } from '@/constants/constants';
 
 type Props = {
   cookieCount: number;
@@ -32,6 +33,9 @@ const CookieCounter = ({
   variantType = 'large',
   ...delegated
 }: Props) => {
+  const isCookiesMin = cookieCount === MIN_COOKIES;
+  const isCookiesMaxed = cookieCount === MAX_COOKIES;
+
   const variants: Variants = {
     large: {
       display: 'block',
@@ -48,7 +52,7 @@ const CookieCounter = ({
       counterSize: 24,
       countSize: '24px',
       countWeight: 'var(--font-weight-medium)',
-      countWidth: '16px',
+      countWidth: '48px',
       counterGap: '0px',
       plusButtonSource: '/plus_outline.svg',
       minusButtonSource: '/minus_outline.svg',
@@ -73,9 +77,11 @@ const CookieCounter = ({
       <CounterButton
         style={{
           display: variant.display,
+          opacity: isCookiesMin ? 0.1 : 1,
         }}
         onClick={() =>
-          cookieCount > 1 && cookieCountOnChange(Number(cookieCount) - 1)
+          cookieCount > MIN_COOKIES &&
+          cookieCountOnChange(Number(cookieCount) - 1)
         }
       >
         <Image
@@ -86,6 +92,7 @@ const CookieCounter = ({
         />
       </CounterButton>
       <CookieNumber
+        disabled={true}
         style={{
           // @ts-ignore
           '--font-size': variant.countSize,
@@ -97,12 +104,14 @@ const CookieCounter = ({
         inputMode="numeric"
         onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()}
       />
+      {/* ONLY DISPLAY + COUNTER for cookie count less than max */}
       <CounterButton
         style={{
           display: variant.display,
+          opacity: isCookiesMaxed ? 0.1 : 1,
         }}
         onClick={() =>
-          cookieCount < 99 && cookieCountOnChange(Number(cookieCount) + 1)
+          !isCookiesMaxed && cookieCountOnChange(Number(cookieCount) + 1)
         }
       >
         <Image

@@ -10,12 +10,14 @@ import Checkout from '@components/Checkout';
 
 import AlertMessage from '@/components/AlertMessage';
 import { getTotal } from '@/utils';
+import { MAX_COOKIES, MIN_COOKIES } from '@/constants/constants';
 
 export default function Cookie() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [cookieCount, setCookieCount] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
   const [disableBuyButton, setDisableBuyButton] = useState(false);
+  const [showBulkOrderMessage, setShowBulkOrderMessage] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,19 +37,26 @@ export default function Cookie() {
 
   // Make it so that you can't have less than 1 cookie
   useEffect(() => {
-    if (cookieCount <= 0) {
+    if (cookieCount < MIN_COOKIES) {
       setDisableBuyButton(true);
       setShowError(true);
       setErrorMessage('really??? you want 0 cookies?');
-    } else if (cookieCount >= 100) {
+
+      // More than 12 cookies,
+    } else if (cookieCount === MAX_COOKIES) {
+      setShowBulkOrderMessage(true);
+
+      // More than MAX cookies
+    } else if (cookieCount > MAX_COOKIES) {
       setDisableBuyButton(true);
       setShowError(true);
-      setErrorMessage(
-        "More than 100 cookies, are you serious??? Don't lie to me... email abi@tapicu.ca"
-      );
+      setErrorMessage('email abi@tapicu.ca');
+
+      // Reset message displays
     } else {
       setDisableBuyButton(false);
       setShowError(false);
+      setShowBulkOrderMessage(false);
       setErrorMessage('');
     }
   }, [cookieCount]);
@@ -66,12 +75,6 @@ export default function Cookie() {
         />
       ) : (
         <>
-          {/* <AbisCookieJarImage
-            src={"/abi's_cookies_cookie_jar.svg"}
-            alt=""
-            height={169}
-            width={169}
-          /> */}
           <HeroImage
             src={'/tapicu_logo.svg'}
             alt="Cookies"
@@ -88,10 +91,25 @@ export default function Cookie() {
               cookieCount={cookieCount}
               cookieCountOnChange={handleCookieCountChange}
             />
-            {/* <CookiePrice>(${COOKIE_PRICE.toFixed(2)} per cookie)</CookiePrice>
             {showError && (
               <ErrorMessage type="error">{errorMessage}</ErrorMessage>
-            )} */}
+            )}
+            {showBulkOrderMessage && (
+              <BulkOrderMessage type="info">
+                <span>
+                  If you&apos;d like to order more than 12 cookies, please visit
+                  the &nbsp;
+                  <Link
+                    href="http://www.tapicu.ca"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Tapicu
+                  </Link>
+                  &nbsp; website.
+                </span>
+              </BulkOrderMessage>
+            )}
             <Divider />
             <TotalWrapper>
               <Total>Total </Total>
@@ -140,16 +158,11 @@ const Question = styled.h2`
   margin-bottom: calc(-1 * var(--space-md));
 `;
 
-const CookiePrice = styled.p`
-  text-align: center;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-light);
-  margin: 0;
-  transform: translateY(calc(-1 * var(--space-sm)));
-  margin-top: calc(-1 * var(--space-lg));
+const ErrorMessage = styled(AlertMessage)`
+  margin: var(--space-lg);
 `;
 
-const ErrorMessage = styled(AlertMessage)`
+const BulkOrderMessage = styled(AlertMessage)`
   margin: var(--space-lg);
 `;
 
@@ -173,3 +186,9 @@ const TotalNumber = styled.h3`
 `;
 
 const BuyButton = styled(Button)``;
+
+const Link = styled.a`
+  text-decoration: none;
+  align-self: center;
+  font-size: calc(var(--font-size-sm) + 1px);
+`;

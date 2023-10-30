@@ -26,7 +26,6 @@ const Checkout = ({ cookieCount, cookieCountOnChange }: Props) => {
           />
           <OrderDescriptionWrapper>
             <CookieName>Tapicú</CookieName>
-            {/* <CookiePrice>Cookies</CookiePrice> */}
           </OrderDescriptionWrapper>
           <CookieCounter
             disable={true}
