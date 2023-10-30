@@ -42,7 +42,7 @@ export default function Cookie() {
       setShowError(true);
       setErrorMessage('really??? you want 0 cookies?');
 
-      // More than 12 cookies,
+      // Max cookie limit.
     } else if (cookieCount === MAX_COOKIES) {
       setShowBulkOrderMessage(true);
 
